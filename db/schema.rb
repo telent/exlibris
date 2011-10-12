@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111012082556) do
+ActiveRecord::Schema.define(:version => 20111012205952) do
 
   create_table "books", :force => true do |t|
     t.integer  "owner_id"
@@ -26,6 +26,15 @@ ActiveRecord::Schema.define(:version => 20111012082556) do
   add_index "books", ["edition_id"], :name => "index_books_on_edition_id"
   add_index "books", ["owner_id"], :name => "index_books_on_owner_id"
   add_index "books", ["shelf_id"], :name => "index_books_on_shelf_id"
+
+  create_table "collections", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "collections", ["user_id"], :name => "index_collections_on_user_id"
 
   create_table "editions", :force => true do |t|
     t.string   "isbn"
@@ -57,5 +66,12 @@ ActiveRecord::Schema.define(:version => 20111012082556) do
 
   add_index "reviews", ["publication_id"], :name => "index_reviews_on_publication_id"
   add_index "reviews", ["reviewer_id"], :name => "index_reviews_on_reviewer_id"
+
+  create_table "users", :force => true do |t|
+    t.string   "name"
+    t.string   "fullname"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
 end
