@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Id:</b>
+  <%= @collection.id %>
+</p>
+
+<p>
+  <b>User:</b>
+  <%= @collection.user %>
+</p>
+
+<p>
+  <b>Name:</b>
+  <%= @collection.name %>
+</p>
+
+
+<%= link_to 'Edit', edit_collection_path(@collection) %> |
+<%= link_to 'Back', collections_path %>

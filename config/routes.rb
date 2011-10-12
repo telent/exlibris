@@ -1,4 +1,6 @@
 Exlibris::Application.routes.draw do
+  resources :collections
+
   resources :publications
 
   resources :reviews
