@@ -1,0 +1,29 @@
+<h1>Listing editions</h1>
+
+<table>
+  <tr>
+    <th>Isbn</th>
+    <th>Publisher</th>
+    <th>Publication</th>
+    <th>Picture</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @editions.each do |edition| %>
+  <tr>
+    <td><%= edition.isbn %></td>
+    <td><%= edition.publisher %></td>
+    <td><%= edition.publication %></td>
+    <td><%= edition.picture %></td>
+    <td><%= link_to 'Show', edition %></td>
+    <td><%= link_to 'Edit', edit_edition_path(edition) %></td>
+    <td><%= link_to 'Destroy', edition, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Edition', new_edition_path %>

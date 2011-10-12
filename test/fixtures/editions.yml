@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  isbn: MyString
+  publisher: MyString
+  publication: 
+  picture: MyString
+
+two:
+  isbn: MyString
+  publisher: MyString
+  publication: 
+  picture: MyString

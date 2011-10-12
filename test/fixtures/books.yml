@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  id: 
+  owner: 
+  borrower: 
+  shelf: 
+  edition: 
+
+two:
+  id: 
+  owner: 
+  borrower: 
+  shelf: 
+  edition: 
