@@ -1,14 +1,20 @@
 Exlibris::Application.routes.draw do
-  resources :users
 
-  resources :collections
+  # deeply nested resources make for ugly long URLs
+  # http://weblog.jamisbuck.org/2007/2/5/nesting-resources
 
+  resources :users do
+    resources :collections
+  end
+  resources :collections do
+    resources :books
+  end
+  resources :books do
+    resources :reviews
+  end
   resources :publications
-
   resources :reviews
-
   resources :editions
-
   resources :books
 
   # The priority is based upon order of creation:
