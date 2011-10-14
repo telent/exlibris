@@ -10,6 +10,14 @@ class EditionsController < ApplicationController
     end
   end
 
+  def isbn
+    @edition = Edition.find_by_isbn(params[:id])
+    warn [:found,@edition]
+    respond_to do |format|
+      format.json { render json: {title: @edition.title, author: @edition.author, publisher: @edition.publisher, picture: @edition.picture }}
+    end
+  end
+
   # GET /editions/1
   # GET /editions/1.json
   def show

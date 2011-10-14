@@ -19,6 +19,7 @@ Exlibris::Application.routes.draw do
   resources :reviews
   resources :editions
   resources :books
+  match 'editions/isbn/:id' => "editions#isbn"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
