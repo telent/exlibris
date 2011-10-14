@@ -15,9 +15,6 @@ Borrowing is arranged by conversation between lender and borrower.  If
 lender has offered to lend a book, site will check with him a bit later
 that the book has been lent, so that it can update book whereabouts
 
-google books api lookup - 
- https://www.googleapis.com/books/v1/volumes?q=isbn:978-1841497730
-
 The view which allows adding a book is, in application model terms,
 creating a Book and creating or finding an Edition and/or Publication.
 

@@ -11,8 +11,34 @@ class EditionsController < ApplicationController
   end
 
   def isbn
-    @edition = Edition.find_by_isbn(params[:id])
-    warn [:found,@edition]
+    isbn=params[:id].gsub(/[^\d]/,"")
+    # "not found" handling in this script is shonky at best
+    raise Error unless (isbn.length >=10)
+    @edition = Edition.find_by_isbn(isbn)
+    if @edition then
+      warn [:found,@edition]
+    else
+      # I am told that Rails is single-threaded.  If I'm wrong,
+      # and a controller can be sent this message twice, bad things
+      # may happen
+      begin
+        @patron||=Patron::Session.new
+        @patron.base_url="https://www.googleapis.com/"
+        r=@patron.get("/books/v1/volumes?q=isbn:#{isbn}")
+        if (r.status==200) then
+          data=JSON.parse(r.body)["items"][0]["volumeInfo"]
+          p=Publication.create(title: data["title"],
+                               author: data["authors"].join(", "))
+          @edition=Edition.create(publisher: data["publisher"],
+                                  isbn: isbn,
+                                  publication: p)
+        else 
+          warn r.inspect
+        end                                 
+      rescue Error => e
+        nil
+      end
+    end
     respond_to do |format|
       format.json { render json: {title: @edition.title, author: @edition.author, publisher: @edition.publisher, picture: @edition.picture }}
     end

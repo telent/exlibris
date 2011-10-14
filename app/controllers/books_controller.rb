@@ -40,11 +40,11 @@ class BooksController < ApplicationController
   # POST /books
   # POST /books.json
   def create
-    @book = Book.new(params[:book])
+    @book = Book.new_with_edition(params[:book])
 
     respond_to do |format|
       if @book.save
-        format.html { redirect_to @book, notice: 'Book was successfully created.' }
+        format.html { redirect_to new_book_path, notice: 'Book "#{book.title}" was successfully added.' }
         format.json { render json: @book, status: :created, location: @book }
       else
         format.html { render action: "new" }
