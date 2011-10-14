@@ -12,6 +12,9 @@ Exlibris::Application.routes.draw do
   resources :books do
     resources :reviews
   end
+  resources :shelves
+    
+
   resources :publications
   resources :reviews
   resources :editions

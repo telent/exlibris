@@ -10,3 +10,6 @@ div.divider {
     background-image: url("/logo-horizontal-rule.png");
     background-repeat: repeat-x;
 }
+table * {
+    padding: 0.4em 1em;
+}
