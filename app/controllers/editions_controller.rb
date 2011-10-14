@@ -12,8 +12,9 @@ class EditionsController < ApplicationController
 
   def isbn
     isbn=params[:id].gsub(/[^\d]/,"")
-    # "not found" handling in this script is shonky at best
-    raise Error unless (isbn.length >=10)
+    if (isbn.length <10)
+      raise ActionController::RoutingError.new('Not Found')
+    end
     @edition = Edition.find_by_isbn(isbn)
     if @edition then
       warn [:found,@edition]
@@ -40,7 +41,13 @@ class EditionsController < ApplicationController
       end
     end
     respond_to do |format|
-      format.json { render json: {title: @edition.title, author: @edition.author, publisher: @edition.publisher, picture: @edition.picture }}
+      format.json { 
+        if @edition then
+          render json: {title: @edition.title, author: @edition.author, publisher: @edition.publisher, picture: @edition.picture }
+        else
+          render :status => :not_found
+        end
+      }
     end
   end
 

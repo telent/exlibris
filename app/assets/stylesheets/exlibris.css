@@ -45,3 +45,7 @@ form input {
     background-color: #eec;
     border-width: 3.5px;
 }
+form input:disabled {
+    background-color: #ccb;
+    foreground-color: #444;
+}

@@ -7,7 +7,12 @@ function populate_for_isbn(data,success,response) {
     }
     ["title","author","publisher"].
 	map(function(k) { $('#book_'+k)[0].value=data[k] });
+    enable_fields();
     $('#book_title').focus();
+}
+function enable_fields() {
+    ["title","author","publisher"].
+	map(function(k) { $('#book_'+k)[0].disabled=false });
 }
 
 jQuery(document).ready(function() {
@@ -16,10 +21,19 @@ jQuery(document).ready(function() {
 		    e.target.blur();
 		    e.stopPropagation();
 		    e.preventDefault();
-		    $.getJSON("/editions/isbn/"+e.target.value,
-			      null,
-			      populate_for_isbn);
+		    ["title","author","publisher"].
+			map(function(k) {
+				$('#book_'+k)[0].disabled='disabled';
+			    });
+		    $.ajax
+			({
+			    url: "/editions/isbn/"+e.target.value,
+				dataType: 'json',
+				success: populate_for_isbn,
+				error: enable_fields
+				});
 		}
 	    });
+	
     });
 
