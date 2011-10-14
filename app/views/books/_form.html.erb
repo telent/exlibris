@@ -11,26 +11,12 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :id %><br />
-    <%= f.text_field :id %>
-  </div>
-  <div class="field">
-    <%= f.label :owner %><br />
-    <%= f.text_field :owner %>
-  </div>
-  <div class="field">
-    <%= f.label :borrower %><br />
-    <%= f.text_field :borrower %>
-  </div>
-  <div class="field">
-    <%= f.label :shelf %><br />
-    <%= f.text_field :shelf %>
-  </div>
-  <div class="field">
-    <%= f.label :edition %><br />
-    <%= f.text_field :edition %>
-  </div>
+  <% [:isbn,:title,:author,:publisher].each do |name| %>
+    <div class="field">
+      <%= f.label name %><br />
+      <%= f.text_field name %>
+    </div>
+  <% end %>
   <div class="actions">
     <%= f.submit %>
   </div>

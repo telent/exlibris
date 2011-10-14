@@ -38,3 +38,10 @@ footer .divider {
 h1 { font-size: 150%; margin-bottom: 1em; }
 h2 { font-size: 130%; margin-bottom: 0.5em; }
 h3 { font-size: 110%; }
+
+form input {
+    -webkit-border-image: url("/button-border.png") 7 7 7 7 repeat;
+    border-image: url("/button-border.png") 0 0 0 0 stretch;
+    background-color: #eec;
+    border-width: 3.5px;
+}
