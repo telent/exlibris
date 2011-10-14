@@ -31,7 +31,7 @@ class BookTest < MiniTest::Rails::Model
                              :publisher=>'Another publisher',
                              :owner=>user)
     refute_equal b2.edition, b.edition
-    # demeter hates me
+    # Demeter, please look away now
     assert_equal b2.edition.publication, b.edition.publication
 
     user2=User.new(:id=>-11,:name=>"fred")
@@ -43,6 +43,5 @@ class BookTest < MiniTest::Rails::Model
     assert_equal b3.edition, b.edition
     refute_equal b3.edition, b2.edition
     assert_equal b3.edition.publication, b.edition.publication
-    b.save
   end
 end
