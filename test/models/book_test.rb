@@ -43,6 +43,6 @@ class BookTest < MiniTest::Rails::Model
     assert_equal b3.edition, b.edition
     refute_equal b3.edition, b2.edition
     assert_equal b3.edition.publication, b.edition.publication
-
+    b.save
   end
 end
