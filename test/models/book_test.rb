@@ -24,5 +24,25 @@ class BookTest < MiniTest::Rails::Model
     assert_equal 'Philip K. Dick',b.author
     assert_equal '9780140171730',b.isbn
     assert_equal 'RoC',b.publisher
+
+    b2=Book.new_with_edition(:author=>'Philip K. Dick',
+                             :title=>'Time Out Of Joint',
+                             :isbn=>'9780110171731',
+                             :publisher=>'Another publisher',
+                             :owner=>user)
+    refute_equal b2.edition, b.edition
+    # demeter hates me
+    assert_equal b2.edition.publication, b.edition.publication
+
+    user2=User.new(:id=>-11,:name=>"fred")
+    b3=Book.new_with_edition(:author=>'Philip K. Dick',
+                             :title=>'Time Out Of Joint',
+                             :publisher=>'RoC',
+                             :isbn=>'9780140171730',
+                             :owner=>user2)
+    assert_equal b3.edition, b.edition
+    refute_equal b3.edition, b2.edition
+    assert_equal b3.edition.publication, b.edition.publication
+
   end
 end
