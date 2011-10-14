@@ -45,6 +45,11 @@ form input {
     background-color: #eec;
     border-width: 3.5px;
 }
+form input[type=text] {
+    width: 20em;
+}
+
+
 form input:disabled {
     background-color: #ccb;
     foreground-color: #444;

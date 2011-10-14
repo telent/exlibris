@@ -33,7 +33,6 @@ jQuery(document).ready(function() {
 				error: enable_fields
 				});
 		}
-	    });
-	
+	    }).focus();	
     });
 
