@@ -5,11 +5,36 @@ header {
     background-color: #ffe;
     margin: 0px; border: 0px; 
 }
-div.divider {
+.divider {
     margin-top: 0.5em;
+    height: 10px;
     background-image: url("/logo-horizontal-rule.png");
     background-repeat: repeat-x;
 }
 table * {
     padding: 0.4em 1em;
 }
+h1,h2,h3,h4 {
+    font-weight: bold;
+}
+article {
+    margin-left: 2em;
+    margin-top: 1em;
+}
+footer {
+    color: #555;
+    font-size: 90%;
+    text-align: center;
+    position: absolute;
+    width: 100%;
+    display: block;
+    bottom: 0.5em;
+    background-color: #ffe;
+}
+footer .divider {
+    margin-bottom: 0.5em;
+}
+
+h1 { font-size: 150%; margin-bottom: 1em; }
+h2 { font-size: 130%; margin-bottom: 0.5em; }
+h3 { font-size: 110%; }

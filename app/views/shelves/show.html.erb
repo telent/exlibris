@@ -1,31 +1,28 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <b>Name:</b>
-  <%= @shelf.name %>
-</p>
+<h1> <%= (@shelf.owner.name) +" / "+ (@shelf.name) %></h1>
 
-<p>
-  <b>Owner:</b>
-  <%= @shelf.owner.name %>
-</p>
+<h2>Books</h2>
 
 <table>
+<tr>
+<% %w(Title Author Publisher).each do |t| %> <th><%= t %></th> <% end %>
 <% @books.each do |book| %>
   <tr>
-    <td><%= book.id %></td>
-    <td><%= book.owner.name %></td>
-    <td><%= b=book.borrower and b.name %></td>
-    <td><%= book.shelf.name %></td>
-    <td><%= book.title %></td>
+    <td><%= link_to book.title, book %></td>
     <td><%= book.author %></td>
     <td><%= book.publisher %></td>
+    <td><%= b=book.borrower and "On loan to #{b.name}" %></td>
 
-    <td><%= link_to 'Show', book %></td>
     <td><%= link_to 'Edit', edit_book_path(book) %></td>
     <td><%= link_to 'Destroy', book, confirm: 'Are you sure?', method: :delete %></td>
   </tr>
 <% end %>
+  <tr>
+    <td colspan=7>
+<%= link_to 'New Book', new_book_path %>
+    </td>
+  </tr>
 </table>
 
 
