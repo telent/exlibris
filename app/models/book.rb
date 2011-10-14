@@ -37,9 +37,9 @@ class Book < ActiveRecord::Base
     self.new attrs.project [:shelf,:shelf_id,:edition,:owner,:owner_id]
     
   end
-  def title; self.edition.title ;end
-  def author; self.edition.author ;end
-  def isbn; self.edition.isbn ;end
-  def publisher; self.edition.publisher ;end
+  def title; self.edition && self.edition.title ;end
+  def author; self.edition && self.edition.author ;end
+  def isbn; self.edition && self.edition.isbn ;end
+  def publisher; self.edition && self.edition.publisher ;end
 
 end
