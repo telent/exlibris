@@ -3,12 +3,12 @@ class Edition < ActiveRecord::Base
   def title;    self.publication.title ;  end
   def author;    self.publication.author ;  end
 
-  def self.find_or_create_by_isbn(isbn,patron=nil)
+  def self.find_or_create_by_isbn(isbn)
     isbn=isbn.gsub(/[^\d]/,"")
     if isbn.length < 10 then raise Error, "Invalid ISBN format" end
     e=self.find_by_isbn(isbn)
     if e.nil? then
-      patron||=Patron::Session.new
+      patron=Patron::Session.new
       patron.base_url="https://www.googleapis.com/"
       r=patron.get("/books/v1/volumes?q=isbn:#{isbn}")
       if (r.status==200) then
