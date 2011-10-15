@@ -25,6 +25,8 @@ class BooksController < ApplicationController
   # GET /books/new.json
   def new
     @book = Book.new
+    @shelves=User.find(1).shelves
+    @collections=User.find(1).collections
 
     respond_to do |format|
       format.html # new.html.erb
@@ -35,6 +37,8 @@ class BooksController < ApplicationController
   # GET /books/1/edit
   def edit
     @book = Book.find(params[:id])
+    @shelves=User.find(1).shelves
+    @collections=User.find(1).collections
   end
 
   # POST /books
