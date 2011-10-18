@@ -11,11 +11,22 @@ class BookTest < MiniTest::Rails::Model
   end
   
   def mock_edition
-    e=mock(:title=>@title,:author=>@author,
-                 :isbn=>@isbn,:publisher=>@publisher)
-    e.expects(:[]).with('id').returns(1)
-    e.expects(:is_a?).returns(Edition) # quack
-    e.expects(:class).returns(Edition) # quack        
+    e=mock
+    e.stubs(:title=>@title,:author=>@author,
+           :isbn=>@isbn,:publisher=>@publisher,
+            :id=>1)
+    e.stubs(:[]).with('id').returns(1)
+    e.stubs(:is_a?).returns(Edition) # quack
+    e.stubs(:class).returns(Edition) # quack        
+    e
+  end
+
+  def mock_edition2
+    e=mock
+    e.stubs(:title=>nil,:author=>nil,:isbn=>nil,:publisher=>nil,:id=>2)
+    e.stubs(:[]).with('id').returns(2)
+    e.stubs(:is_a?).returns(Edition) # quack
+    e.stubs(:class).returns(Edition) # quack        
     e
   end
 
@@ -47,9 +58,27 @@ class BookTest < MiniTest::Rails::Model
         assert_match "Edition can't be blank", b.errors.full_messages.join
       end
     end
-    describe "when ISBN provided and author/title exists" do
-      it "uses existing Edition if author/title/publisher match"
-      it "creates new Edition with same ISBN otherwise"
+    describe "when ISBN and author/title all provided" do
+      it "uses existing Edition if author/title/publisher match" do
+        Edition.expects(:find_by_isbn).with(@isbn).returns(mock_edition)
+        b=Book.new(:author=>@author,:title=>@title,:isbn=>@isbn,
+                   :publisher=>@publisher)
+        assert_equal mock_edition.id,b.edition.id
+        assert_equal @title,b.title
+        assert_equal @author,b.author
+        assert_equal @isbn,b.isbn
+        assert_equal @publisher,b.publisher
+      end
+      it "creates new Edition with same ISBN otherwise" do
+        Edition.expects(:find_by_isbn).with(@isbn).returns(mock_edition)
+        m2=mock_edition2
+        Edition.expects(:new).with() {|a|
+          a[:author]=="Not #{@author}"
+        }.returns(m2)
+        b=Book.new(:author=>"Not #{@author}",:title=>@title,:isbn=>@isbn,
+                   :publisher=>@publisher)
+        assert_equal b.edition,m2
+      end
     end
     it "when ISBN absent, creates new book"
   end
