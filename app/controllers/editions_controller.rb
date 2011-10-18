@@ -16,9 +16,7 @@ class EditionsController < ApplicationController
       raise ActionController::RoutingError.new('Not Found')
     end
     @edition = Edition.find_by_isbn(isbn)
-    if @edition then
-      warn [:found,@edition]
-    else
+    if @edition.nil? then
       # I am told that Rails is single-threaded.  If I'm wrong,
       # and a controller can be sent this message twice, bad things
       # may happen
