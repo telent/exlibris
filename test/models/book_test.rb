@@ -10,6 +10,7 @@ class BookTest < MiniTest::Rails::Model
     @publisher='RoC'
   end
   
+
   def mock_edition
     e=mock
     e.stubs(:title=>@title,:author=>@author,
@@ -29,7 +30,6 @@ class BookTest < MiniTest::Rails::Model
     e.stubs(:class).returns(Edition) # quack        
     e
   end
-
 
   describe "#new" do
     describe "when isbn provided and no author/title" do
@@ -80,7 +80,10 @@ class BookTest < MiniTest::Rails::Model
         assert_equal b.edition,m2
       end
     end
-    it "when ISBN absent, creates new book"
+    it "when ISBN absent, creates new book" do
+      b=Book.new(:author=>"Not #{@author}",:title=>@title,:publisher=>@publisher)
+      assert b.valid?
+    end
   end
 end
         
