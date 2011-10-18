@@ -16,23 +16,6 @@ function enable_fields() {
 }
 
 jQuery(document).ready(function() {
-	$('#book_isbn').keypress(function(e) {
-		if(e.which == 13) {
-		    e.target.blur();
-		    e.stopPropagation();
-		    e.preventDefault();
-		    ["title","author","publisher"].
-			map(function(k) {
-				$('#book_'+k)[0].disabled='disabled';
-			    });
-		    $.ajax
-			({
-			    url: "/editions/isbn/"+e.target.value,
-				dataType: 'json',
-				success: populate_for_isbn,
-				error: enable_fields
-				});
-		}
-	    }).focus();	
+	$('#bookd_isbn').focus();	
     });
 
