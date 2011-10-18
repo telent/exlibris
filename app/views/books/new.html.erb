@@ -1,3 +1,11 @@
+<aside>
+  <h2>Recently added</h2>
+  <% current_user.books.order("id desc").limit(4).each do |b| %>
+  <div> <%= link_to "#{b.title} - #{b.author}", book_path(b)  %></div>
+  <% end %>
+  </table>
+</aside>
+
 <h1>New book</h1>
 
 <%= render 'form' %>

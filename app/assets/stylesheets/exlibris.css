@@ -21,6 +21,18 @@ article {
     margin-left: 2em;
     margin-top: 1em;
 }
+aside {
+    position: absolute;
+    width: 30%;
+    -webkit-border-image: url("/grey-border.png") 5 5 5 5 repeat;
+    border-image: url("/grey-border.png") 5 5 5 5 repeat;
+    background-color: #eec;
+    border-width: 3.5px;
+    right: 1em;
+    padding: 1em;
+}
+    
+
 footer {
     color: #555;
     font-size: 90%;
