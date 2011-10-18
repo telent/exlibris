@@ -21,6 +21,9 @@ Exlibris::Application.routes.draw do
   resources :books
   match 'editions/isbn/:id' => "editions#isbn"
 
+  match '/auth/twitter/callback' => 'sessions#create'
+  match '/auth/facebook/callback' => 'sessions#create'
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

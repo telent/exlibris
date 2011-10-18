@@ -2,8 +2,8 @@ class BooksController < ApplicationController
   # GET /books
   # GET /books.json
   def index
-    @books = Book.all
-
+    @books = current_user.books
+    
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @books }
@@ -14,37 +14,39 @@ class BooksController < ApplicationController
   # GET /books/1.json
   def show
     @book = Book.find(params[:id])
-
+    
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @book }
     end
   end
-
+  
   # GET /books/new
   # GET /books/new.json
   def new
     @book = Book.new
-    @shelves=User.find(1).shelves
-    @collections=User.find(1).collections
-
+    @shelves=current_user.shelves
+    @collections=current_user.collections
+    
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @book }
     end
   end
-
+  
   # GET /books/1/edit
   def edit
     @book = Book.find(params[:id])
-    @shelves=User.find(1).shelves
-    @collections=User.find(1).collections
+    @shelves=current_user.shelves
+    @collections=current_user.collections
   end
-
+  
   # POST /books
   # POST /books.json
   def create
-    @book = Book.new_with_edition(params[:book])
+    @book = current_user.books.build(params[:book])
+    @shelves=current_user.shelves
+    @collections=current_user.collections
 
     respond_to do |format|
       if @book.save

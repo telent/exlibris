@@ -2,7 +2,7 @@ class CollectionsController < ApplicationController
   # GET /collections
   # GET /collections.json
   def index
-    @collections = Collection.all
+    @collections = current_user.collections
 
     respond_to do |format|
       format.html # index.html.erb
