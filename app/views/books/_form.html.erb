@@ -11,9 +11,20 @@
     </div>
   <% end %>
 
+  <div class="field">
+    <%= f.label :shelf_id %>
+    <%= collection_select(:book,:shelf_id,@shelves,:id,:name) %>
+  </div>
+  <div class="field">
+    <%= f.label :collection_id %>
+    <%= collection_select(:book,:collection_id,@collections,:id,:name,{ 
+	:include_blank => '(guess collection)' 
+    }) %>
+  </div>
+
   <% [:isbn,:title,:author,:publisher].each do |name| %>
     <div class="field">
-      <%= f.label name %><br />
+      <%= f.label name %>
       <%= f.text_field name %>
     </div>
   <% end %>
