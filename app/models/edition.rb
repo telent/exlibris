@@ -1,14 +1,16 @@
 class Edition < ActiveRecord::Base
   belongs_to :publication
-  def title;    self.publication.title ;  end
-  def author;    self.publication.author ;  end
+  def title;    p=self.publication and p.title ;  end
+  def author;    p=self.publication and p.author ;  end
 
   def initialize(a={})
     if (a[:author].present? || a[:title].present? )
-      a[:publication]=Publication.find_or_initialize_by_author_and_title(a[:author],a[:title])
-      a.delete :author
-      a.delete :title
+      p=Publication.find_or_initialize_by_author_and_title(a[:author],a[:title])
+      a[:publication]=p
     end
+    a.delete :author
+    a.delete :title
+    a.delete :blurb
     warn [:artr,a]
     super(a)
   end
