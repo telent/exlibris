@@ -3,45 +3,55 @@ require 'mocha'
 
 class BookTest < MiniTest::Rails::Model
   before do
-    @book = Book.new
-  end
-
-  it "must be valid" do
-    @book.valid?.must_equal true
+    @user=User.new(:id=>-10,:name=>"dan")
+    @author='Philip K. Dick'
+    @title='Time Out Of Joint'
+    @isbn='9780140171730'
+    @publisher='RoC'
   end
   
-  it "creates a book and ensures a publication and edition" do
-    # this tests Edition as well as Book.  I can't think of any
-    # way to mock edition that still tests useful behaviour
-    
-    user=User.new(:id=>-10,:name=>"dan")
-    b=Book.new_with_edition(:author=>'Philip K. Dick',
-                            :title=>'Time Out Of Joint',
-                            :isbn=>'9780140171730',
-                            :publisher=>'RoC',
-                            :owner=>user)
-    assert_equal 'Time Out Of Joint',b.title
-    assert_equal 'Philip K. Dick',b.author
-    assert_equal '9780140171730',b.isbn
-    assert_equal 'RoC',b.publisher
+  def mock_edition
+    e=mock(:title=>@title,:author=>@author,
+                 :isbn=>@isbn,:publisher=>@publisher)
+    e.expects(:[]).with('id').returns(1)
+    e.expects(:is_a?).returns(Edition) # quack
+    e.expects(:class).returns(Edition) # quack        
+    e
+  end
 
-    b2=Book.new_with_edition(:author=>'Philip K. Dick',
-                             :title=>'Time Out Of Joint',
-                             :isbn=>'9780110171731',
-                             :publisher=>'Another publisher',
-                             :owner=>user)
-    refute_equal b2.edition, b.edition
-    # Demeter, please look away now
-    assert_equal b2.edition.publication, b.edition.publication
 
-    user2=User.new(:id=>-11,:name=>"fred")
-    b3=Book.new_with_edition(:author=>'Philip K. Dick',
-                             :title=>'Time Out Of Joint',
-                             :publisher=>'RoC',
-                             :isbn=>'9780140171730',
-                             :owner=>user2)
-    assert_equal b3.edition, b.edition
-    refute_equal b3.edition, b2.edition
-    assert_equal b3.edition.publication, b.edition.publication
+  describe "#new" do
+    describe "when isbn provided and no author/title" do
+      it "uses existing Edition where ISBN matches" do
+        Edition.expects(:find_by_isbn).with(@isbn).returns(mock_edition)
+        b=Book.new(:isbn=>@isbn,:owner=>@user)
+        assert_equal @title,b.title
+        assert_equal @author,b.author
+        assert_equal @isbn,b.isbn
+        assert_equal @publisher,b.publisher
+      end
+      it "creates new Edition when the ISBN exists in Google Books" do
+        Edition.expects(:find_by_isbn).with(@isbn).returns(nil)
+        Edition.expects(:google_lookup_isbn).with(@isbn).returns(mock_edition)
+        b=Book.new(:isbn=>@isbn,:owner=>@user)
+        assert_equal @title,b.title
+        assert_equal @author,b.author
+        assert_equal @isbn,b.isbn
+        assert_equal @publisher,b.publisher
+      end
+      it "creates invalid Book when ISBN is invalid or not found" do
+        Edition.expects(:find_by_isbn).with(@isbn).returns(nil)
+        Edition.expects(:google_lookup_isbn).with(@isbn).returns(nil)
+        b=Book.new(:isbn=>@isbn,:owner=>@user)
+        refute b.valid?
+        assert_match "Edition can't be blank", b.errors.full_messages.join
+      end
+    end
+    describe "when ISBN provided and author/title exists" do
+      it "uses existing Edition if author/title/publisher match"
+      it "creates new Edition with same ISBN otherwise"
+    end
+    it "when ISBN absent, creates new book"
   end
 end
+        
