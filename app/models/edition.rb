@@ -3,25 +3,31 @@ class Edition < ActiveRecord::Base
   def title;    self.publication.title ;  end
   def author;    self.publication.author ;  end
 
-  def self.find_or_create_by_isbn(isbn)
-    isbn=isbn.gsub(/[^\d]/,"")
-    if isbn.length < 10 then raise Error, "Invalid ISBN format" end
-    e=self.find_by_isbn(isbn)
-    if e.nil? then
-      patron=Patron::Session.new
-      patron.base_url="https://www.googleapis.com/"
-      r=patron.get("/books/v1/volumes?q=isbn:#{isbn}")
-      if (r.status==200) then
-        data=JSON.parse(r.body)["items"][0]["volumeInfo"]
-        p=Publication.create(title: data["title"],
-                             author: data["authors"].join(", "))
-        e=Edition.create(publisher: data["publisher"],
-                         isbn: isbn,
-                         publication: p)
-      else 
-        raise Error,"ISBN lookup failed: #{r.status}"
-      end                                 
+  def initialize(a={})
+    if (a[:author].present? || a[:title].present? )
+      a[:publication]=Publication.find_or_initialize_by_author_and_title(a[:author],a[:title])
+      a.delete :author
+      a.delete :title
     end
-    e
+    warn [:artr,a]
+    super(a)
+  end
+
+  def self.google_lookup_isbn(isbn)
+    isbn=isbn.gsub(/[^\d]/,"")
+    patron=Patron::Session.new
+    patron.base_url="https://www.googleapis.com/"
+    r=patron.get("/books/v1/volumes?q=isbn:#{isbn}")
+    if (r.status==200) then
+      data=JSON.parse(r.body)
+      if(data["totalItems"].to_i > 0) then
+        v=data["items"][0]["volumeInfo"]
+        self.new(publisher: v["publisher"],
+                 title: v["title"],
+                 author: v["authors"].join(", "),
+                 isbn: isbn,
+                 publication: p)
+      end
+    end
   end
 end
