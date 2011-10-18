@@ -3,6 +3,8 @@ Exlibris::Application.routes.draw do
   # deeply nested resources make for ugly long URLs
   # http://weblog.jamisbuck.org/2007/2/5/nesting-resources
 
+  # this is the public navifation thingy whereby users can see each
+  # others' books
   resources :users do
     resources :collections
   end
@@ -12,8 +14,11 @@ Exlibris::Application.routes.draw do
   resources :books do
     resources :reviews
   end
-  resources :shelves
-    
+
+  # this is the interface for users to edit their books
+  resources :shelves do
+    resources :books
+  end
 
   resources :publications
   resources :reviews
