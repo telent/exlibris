@@ -11,7 +11,6 @@ class Edition < ActiveRecord::Base
     a.delete :author
     a.delete :title
     a.delete :blurb
-    warn [:artr,a]
     super(a)
   end
 
