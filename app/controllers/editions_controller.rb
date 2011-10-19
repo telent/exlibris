@@ -31,8 +31,6 @@ class EditionsController < ApplicationController
           @edition=Edition.create(publisher: data["publisher"],
                                   isbn: isbn,
                                   publication: p)
-        else 
-          warn r.inspect
         end                                 
       rescue Error => e
         nil
