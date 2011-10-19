@@ -5,6 +5,12 @@ header {
     background-color: #ffe;
     margin: 0px; border: 0px; 
 }
+header #session {
+    position: absolute;
+    right: 4em; top: 0.5em;
+    font-weight: bold;    
+    z-index: 1;
+}
 .divider {
     margin-top: 0.5em;
     height: 10px;
