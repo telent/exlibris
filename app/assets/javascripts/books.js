@@ -16,6 +16,6 @@ function enable_fields() {
 }
 
 jQuery(document).ready(function() {
-	$('#bookd_isbn').focus();	
+	$('#book_isbn').focus();	
     });
 
