@@ -1,6 +1,8 @@
 class CollectionsController < ApplicationController
   # GET /collections
   # GET /collections.json
+  before_filter :check_rights
+
   def index
     @collections = current_user.collections
 
@@ -13,11 +15,10 @@ class CollectionsController < ApplicationController
   # GET /collections/1
   # GET /collections/1.json
   def show
-    @collection = Collection.find(params[:id])
-
+    @books=@this.books
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render json: @collection }
+      format.json { render json: @this }
     end
   end
 
@@ -78,6 +79,18 @@ class CollectionsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to collections_url }
       format.json { head :ok }
+    end
+  end
+
+  protected
+  def check_rights
+    if id=params[:id] then
+      @this = Collection.find id
+    else
+      @this=Collection
+    end
+    if !@this.permitted?(current_user,action_name) then
+      render :text=>"Unauthorized", :status=>401
     end
   end
 end
