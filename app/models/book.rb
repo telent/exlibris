@@ -6,6 +6,7 @@ class Book < ActiveRecord::Base
   belongs_to :borrower,:class_name=>"User"
   belongs_to :shelf
   belongs_to :edition
+  belongs_to :collection
 
   validates_associated :shelf
   validates_associated :edition
