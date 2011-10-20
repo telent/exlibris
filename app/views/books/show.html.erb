@@ -1,28 +1,32 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <b>Id:</b>
-  <%= @book.id %>
+  <b>Home:</b>
+  <%= s=@book.shelf ; s && link_to([s.owner.name,s.name].join(" / "),s) %>
 </p>
 
-<p>
-  <b>Owner:</b>
-  <%= @book.owner %>
-</p>
-
+<% if @book.borrower then %>
 <p>
   <b>Borrower:</b>
-  <%= @book.borrower %>
+  <%= b=@book.borrower && link_to(b.name,b) %>
 </p>
+<% end %>
 
 <p>
-  <b>Shelf:</b>
-  <%= @book.shelf %>
+  <b>Title:</b>
+  <%= @book.title %>
 </p>
-
 <p>
-  <b>Edition:</b>
-  <%= @book.edition %>
+  <b>Author:</b>
+  <%= @book.author %>
+</p>
+<p>
+  <b>Publisher:</b>
+  <%= @book.publisher %>
+</p>
+<p>
+  <b>ISBN:</b>
+  <%= @book.isbn %>
 </p>
 
 
