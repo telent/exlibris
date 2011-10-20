@@ -14,10 +14,12 @@ class Collection < ActiveRecord::Base
       self.acls.where(:user_id=>user.id).map(&:delete)
     end
   end
+  # is user allowed to do permission to self?
   def permitted?(user,permission)
     (user == self.user) || (user.admin?) || 
       self.acls.where(:user_id=>user.id,:permission=>permission).exists?
   end
+  # the users returned from this method do not include admin users
   def permitted_users(permission)
     self.acls.where(:permission=>permission).map(&:user).push(self.user)
   end
