@@ -8,17 +8,22 @@
     <th>Publisher</th>
   </tr>
 
-<% @books.each do |book| %>
+<% @books.each do |book| 
+  if book.collection.permitted?(current_user,:browse) then %>
   <tr>
     <td><%= [book.shelf.owner.name,book.shelf.name].join("/") %></td>
     <td><%= link_to book.title,book %></td>
     <td><%= book.author %></td>
     <td><%= book.publisher %></td>
-    <td><%= link_to 'Show', book %></td>
+<% if current_user.admin? || 
+   book.collection.permitted?(current_user,:edit) then %>
     <td><%= link_to 'Edit', edit_book_path(book) %></td>
     <td><%= link_to 'Destroy', book, confirm: 'Are you sure?', method: :delete %></td>
-  </tr>
 <% end %>
+  </tr>
+<%   end
+  end
+%>
 </table>
 
 <br />
