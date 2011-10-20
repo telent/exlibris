@@ -16,6 +16,13 @@ class CollectionTest < MiniTest::Rails::Model
     assert_equal [user1,@owner],  @collection.permitted_users(:browse)
   end
 
+  it "admin rights override permisions" do
+    user1=User.create(:name=>"user 1")
+    user1.expects(:admin?).twice.returns(true)
+    assert @collection.permitted?(user1,:browse)
+    assert @collection.permitted?(user1,:fly)
+  end
+
   it "removes a permission" do
     user1=User.create(:name=>"user 1")  
     @collection.permit(user1,:browse)

@@ -15,7 +15,7 @@ class Collection < ActiveRecord::Base
     end
   end
   def permitted?(user,permission)
-    (user == self.user) ||
+    (user == self.user) || (user.admin?) || 
       self.acls.where(:user_id=>user.id,:permission=>permission).exists?
   end
   def permitted_users(permission)
