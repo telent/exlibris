@@ -17,9 +17,14 @@ header #session {
     background-image: url("/logo-horizontal-rule.png");
     background-repeat: repeat-x;
 }
-table * {
+table tr td,th {
     padding: 0.4em 1em;
 }
+table th {
+    font-weight: bold;
+    text-align: left;
+}
+
 h1,h2,h3,h4 {
     font-weight: bold;
 }
