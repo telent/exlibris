@@ -3,6 +3,9 @@ Try and keep the privacy model simple ...
 Your books are grouped into collections.  You can add friends to each
 collection, which allows them to browse/search the books therein.
 
+For each collection: browse permission is for 
+self/friends/friends of friends/world
+
 People who are not your friends post 'requests to borrow': everyone
 with the book being searched for (perhaps within a particular
 grographical area) is notified when someone asks to borrow it and can
@@ -18,5 +21,58 @@ that the book has been lent, so that it can update book whereabouts
 The view which allows adding a book is, in application model terms,
 creating a Book and creating or finding an Edition and/or Publication.
 
+Wed Oct 19 13:05:45 2011
+
+Some thoughts about user authentication
+
+- probably not that many people will want to maek their entire book
+  collection open to the public
+
+- but without a decent amont of books to browse, the average new user
+  will not see a compelling case for joining up
+
+- so make the service invite-only: any user may invite his friend and
+  at the same time give them browse rights on his collections.  We can
+  make it very easy to do this as part of lending them a book
+
+- an email link with a cookie in it is a valid login method for the user
+  it is sent to: i.e. lending a book to someone who is not registered 
+  will create a User and a :link authorization for them
+
+- there needs to be a user merge operation in case people invite you
+  and you're in already, o you have multiple email addresses, etc etc
+
+Avenues to think about right now
+
+1) 'events' model so that people can see what's happening with their 
+friends (borrow requests, new books, etc)
+
+2) api for lending a book
+
+book.lend_to(User.find(my_friend_id))
+
+3) new user invitations
+
+User.invite_by_email(email_address)
+=> generates a user and a :link authorization 
+=> emails the address given 
+
+invitation links can also be shared by twitter DM or other channels
 
 
+Thu Oct 20 11:57:27 2011
+
+Again with user permissions: adding an extensive set of roles is only
+going to lead to extensive trouble, so can we keep it to as few as
+possible?
+
+admin - can do everything
+
+moderator - "trusted lieutenants" can't amend personal details but can
+fix book descriptions and reviews
+
+Thu Oct 20 13:00:33 2011
+
+New user creation should add a default collection
+New collection creation should allow acl to be copied from another collection
+Need an interface for editing an acl
