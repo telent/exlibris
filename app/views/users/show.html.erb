@@ -21,21 +21,49 @@ Also want a summary of their recent activity
 <div class="tab_container">
   <% if @collections.present? then %>
   <div id="collections" class="tab">
-    <ul>
+    <table>
       <% @collections.each do |c| %>
-      <li> <%= link_to c.name,c %> </li>
+      <tr>
+	<td> <%= link_to c.name,c %> </td>
+<% if c.permitted?(current_user,:edit) then %>
+	<td><%= link_to 'Edit', edit_collection_path(c) %></td>
+<% end %>
+<% if c.permitted?(current_user,:delete) then %>
+	<td><%= link_to 'Destroy', c, confirm: 'Delete - are you sure?',
+	method: :delete %>
+<% end %>
+      </tr>
       <% end %>
-    </ul>
+    </table>
+<%= if current_user==@user then
+ link_to 'New Collection', new_collection_path 
+end
+%>
   </div>
   <% end %>
 
   <% if @shelves.present? then %>
   <div id="shelves" class="tab">
-    <ul>
-      <% @shelves.each do |s| %>
-      <li> <%= link_to s.name,s %> </li>
+    <table>
+      <% @shelves.each do |c| %>
+      <tr>
+	<td> <%= link_to c.name,c %> </td>
+<% if c.permitted?(current_user,:edit) then %>
+	<td><%= link_to 'Edit', edit_shelf_path(c) %></td>
+<% end %>
+<% if c.permitted?(current_user,:delete) then %>
+	<td><%= link_to 'Destroy', c, confirm: 'Delete - are you sure?',
+	method: :delete %>
+<% end %>
+      </tr>
       <% end %>
-    </ul>
+    </table>
+<%= if current_user==@user then
+ link_to 'New Shelf', new_shelf_path 
+end
+%>
+
+
   </div>
   <% end %>
 </div>
