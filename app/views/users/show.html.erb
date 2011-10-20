@@ -1,27 +1,34 @@
 <p id="notice"><%= notice %></p>
 
-<p><i>
-This should be the user public profile page, containing name, contact
-details, any kind of relevant bio, approximate geographical location,
-etc.  Information here is subject to privacy controls of some kind
-(but KISS please).  Also want links to the users' collections + the
-books therein, and a summary of their recent activity
-  </i>
+<h1><%= "#{@user.name} (#{@user.fullname})" %></h1>
 
-<p>
-  <b>Id:</b>
-  <%= @user.id %>
-</p>
+<div class=todo>This should be the user public profile page,
+containing name, contact details, any kind of relevant bio,
+approximate geographical location, etc.  current_user is permitted to
+see this if he has :show permission on any of the user's shelves.
+Also want a summary of their recent activity
+</div>
 
-<p>
-  <b>Name:</b>
-  <%= @user.name %>
-</p>
 
-<p>
-  <b>Fullname:</b>
-  <%= @user.fullname %>
-</p>
+<% if @collections.present? then %>
+<h2>Collections</h2>
+
+<ul>
+<% @collections.each do |c| %>
+<li> <%= link_to c.name,c %> </li>
+<% end %>
+</ul>
+<% end  %>
+
+<% if @shelves.present? then %>
+<h2>Shelves</h2>
+
+<ul>
+<% @shelves.each do |s| %>
+<li> <%= link_to s.name,s %> </li>
+<% end %>
+</ul>
+<% end  %>
 
 
 <%= link_to 'Edit', edit_user_path(@user) %> |

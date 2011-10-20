@@ -28,6 +28,15 @@ table th {
 h1,h2,h3,h4 {
     font-weight: bold;
 }
+
+ul li {
+    marker-style: circle;
+    margin-left: 2em;
+}
+ul {
+    margin-bottom: 0.5em;
+}
+
 article {
     margin-left: 2em;
     margin-top: 1em;
@@ -58,8 +67,8 @@ footer .divider {
     margin-bottom: 0.5em;
 }
 
-h1 { font-size: 150%; margin-bottom: 1em; }
-h2 { font-size: 130%; margin-bottom: 0.5em; }
+h1 { font-size: 150%; margin-top: 1em; margin-bottom: 1em; }
+h2 { font-size: 130%; margin-top: 1em; margin-bottom: 0.5em; }
 h3 { font-size: 110%; }
 
 form select,input {
@@ -79,4 +88,17 @@ form label {
 form input:disabled {
     background-color: #ccb;
     foreground-color: #444;
+}
+
+
+div.todo {
+    font-style: oblique;
+    color: #a44;
+    background-color: #fdd;
+    margin: 3em; padding: 1em;
+}
+div.todo:before {
+    content: "TO DO: ";
+    font-weight: bold;
+    color: #444;
 }

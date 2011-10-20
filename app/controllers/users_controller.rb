@@ -15,6 +15,12 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
+    @collections=@user.collections.select {|c| 
+      c.permitted?(current_user,:show)
+    }
+    @shelves=@user.shelves.select {|s| 
+      s.permitted?(current_user,:show)
+    }
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @user }
