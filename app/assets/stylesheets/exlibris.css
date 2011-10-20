@@ -73,6 +73,7 @@ ul.tabs li a:hover {
 }
 html ul.tabs li.active, html ul.tabs li.active a:hover  { /*--Makes sure that the active tab does not listen to the hover properties--*/
         background: #fff;
+	font-weight: bold;
         border-bottom: 1px solid #fff; /*--Makes the active tab look like it's connected with its content--*/
 }
 div.tab_container {
@@ -146,6 +147,9 @@ form input:disabled {
     foreground-color: #444;
 }
 
+a[data-method=delete],a[data-method=delete]:visited {
+    color: red;
+}
 
 div.todo {
     font-style: oblique;
