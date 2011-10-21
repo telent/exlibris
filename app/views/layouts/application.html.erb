@@ -14,7 +14,9 @@
 <a href="/"><img id="logo" alt="Ex Libris" src="/logo-text.png"></a>
 <div id="session">
 <%= if u=current_user then
-   link_to("#{u.name} (#{u.fullname})",u)  
+   [link_to("#{u.name} (#{u.fullname})",u)  ,
+    "/",
+    link_to("sign out","/logout") ].join(" ") 
 else
    link_to("sign in",'/')  
 end
