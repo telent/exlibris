@@ -17,12 +17,14 @@ class User < ActiveRecord::Base
   end
 
   def permitted?(user,permission)
-    case permission.to_sym
-    when :show then self.collections.any? {|c| c.permitted?(user,:browse) }
-    when :edit,:update,:destroy then ((user==self) || user.admin?)
-    else false
-    end
+    ((user==self) || user.admin?) ||
+      case permission.to_sym
+      when :show then self.collections.any? {|c| c.permitted?(user,:browse) }
+      when :edit,:update,:destroy then true
+      else false
+      end
   end
+
 
   def self.permitted?(user,permission)
     case permission.to_sym
