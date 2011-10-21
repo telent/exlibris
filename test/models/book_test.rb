@@ -80,10 +80,14 @@ class BookTest < MiniTest::Rails::Model
         assert_equal b.edition,m2
       end
     end
-    it "when ISBN absent, creates new book" do
-      b=Book.new(:author=>"Not #{@author}",:title=>@title,:publisher=>@publisher)
-      assert b.valid?
+    it "when ISBN absent, makes new book and edition" do
+      m2=mock_edition
+      Edition.expects(:new).with(has_entry(:title=>@title)).returns(m2)
+      b=Book.new(:author=>@author,:title=>@title,:publisher=>@publisher)
+      m2.stubs(:valid?).returns(true)
+      m2.stubs(:collect).returns []
+      assert b.valid? #,b.errors.full_messages.join(" ")
     end
   end
 end
-        
+       

@@ -1,5 +1,6 @@
 class Edition < ActiveRecord::Base
   belongs_to :publication
+  validates :publication_id, :presence=>true
   def title;    p=self.publication and p.title ;  end
   def author;    p=self.publication and p.author ;  end
 

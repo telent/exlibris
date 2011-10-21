@@ -10,7 +10,7 @@ class Book < ActiveRecord::Base
 
   validates_associated :shelf
   validates_associated :edition
-  validates_presence_of :edition
+  validates :edition_id,:presence=>true
 
   def initialize(a={},opts={})
     keys=self.class.attribute_names.map(&:to_sym)
