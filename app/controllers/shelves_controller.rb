@@ -40,11 +40,11 @@ class ShelvesController < ApplicationController
   # POST /shelves
   # POST /shelves.json
   def create
-    @shelf = Shelf.new(params[:shelf])
+    @shelf = current_user.shelves.build(params[:shelf])
 
     respond_to do |format|
       if @shelf.save
-        format.html { redirect_to @shelf, notice: 'Shelf was successfully created.' }
+        format.html { redirect_to current_user, notice: 'Shelf was successfully created.' }
         format.json { render json: @shelf, status: :created, location: @shelf }
       else
         format.html { render action: "new" }
