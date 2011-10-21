@@ -1,6 +1,7 @@
 class Collection < ActiveRecord::Base
   belongs_to :user
   has_many :acls, :class_name=>"CollectionAcl"
+  has_many :books
   def owner
     self.user
   end
