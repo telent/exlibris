@@ -31,6 +31,10 @@ Exlibris::Application.routes.draw do
 
   match '/auth/twitter/callback' => 'sessions#create'
   match '/auth/facebook/callback' => 'sessions#create'
+  match '/logout' => 'sessions#destroy'
+  match '/login' => 'sessions#new'
+
+  match '/' => 'news#show'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

@@ -1,4 +1,6 @@
 class SessionsController < ApplicationController
+  def new
+  end
   def create
     auth=request.env['omniauth.auth']
     #warn [:auth,auth]
@@ -15,5 +17,8 @@ class SessionsController < ApplicationController
       session[:user_id]=u.id
       redirect_to edit_user_path(u)
     end
+  end
+  def destroy
+    session.delete(:user_id)
   end
 end
