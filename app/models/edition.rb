@@ -3,6 +3,7 @@ class Edition < ActiveRecord::Base
   validates :publication_id, :presence=>true
   def title;    p=self.publication and p.title ;  end
   def author;    p=self.publication and p.author ;  end
+  def author_sortkey;    p=self.publication and p.author_sortkey ;  end
 
   def initialize(a={})
     if (a[:author].present? || a[:title].present? )

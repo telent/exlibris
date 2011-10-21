@@ -15,7 +15,7 @@ class CollectionsController < ApplicationController
   # GET /collections/1
   # GET /collections/1.json
   def show
-    @books=@this.books
+    @books=@this.books.all.sort_by(&:author_sortkey)
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @this }

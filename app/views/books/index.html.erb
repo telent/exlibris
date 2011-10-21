@@ -6,12 +6,13 @@
     <th>Title</th>
     <th>Author</th>
     <th>Publisher</th>
+    <th>ISBN</th>
   </tr>
 
 <% @books.each do |book| 
   if book.collection.permitted?(current_user,:browse) then %>
   <%= render :partial=>"row", :locals => {
-  :book=>book,:columns=>[:owner,:shelf,:owner_shelf] 
+  :book=>book,:columns=>[:owner_shelf] 
   } %>
 <%   end
   end

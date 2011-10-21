@@ -36,6 +36,7 @@ class Book < ActiveRecord::Base
 
   def title; self.edition && self.edition.title ;end
   def author; self.edition && self.edition.author ;end
+  def author_sortkey; self.edition && self.edition.author_sortkey ;end
   def isbn; self.edition && self.edition.isbn ;end
   def publisher; self.edition && self.edition.publisher ;end
 

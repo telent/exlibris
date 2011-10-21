@@ -14,7 +14,7 @@ class ShelvesController < ApplicationController
   # GET /shelves/1.json
   def show
     @shelf = Shelf.find(params[:id])
-    @books = @shelf.books
+    @books = @shelf.books.sort_by(&:author_sortkey)
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @shelf }

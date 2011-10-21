@@ -2,7 +2,7 @@ class BooksController < ApplicationController
   # GET /books
   # GET /books.json
   def index
-    @books = current_user.books
+    @books = current_user.books.sort_by(&:author_sortkey)
     
     respond_to do |format|
       format.html # index.html.erb
