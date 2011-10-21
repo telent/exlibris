@@ -29,8 +29,7 @@ Exlibris::Application.routes.draw do
 
   match '/profile' => "users#me"
 
-  match '/auth/twitter/callback' => 'sessions#create'
-  match '/auth/facebook/callback' => 'sessions#create'
+  match '/auth/:service/callback' => 'sessions#create'
   match '/logout' => 'sessions#destroy'
   match '/login' => 'sessions#new'
 
