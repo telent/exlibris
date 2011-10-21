@@ -26,7 +26,7 @@ class User < ActiveRecord::Base
 
   def self.permitted?(user,permission)
     case permission.to_sym
-    when :index then true
+    when :index,:me then true
     when :new then user.admin?
     when :create then user.admin?
     end

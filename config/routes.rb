@@ -24,7 +24,10 @@ Exlibris::Application.routes.draw do
   resources :reviews
   resources :editions
   resources :books
+
   match 'editions/isbn/:id' => "editions#isbn"
+
+  match '/profile' => "users#me"
 
   match '/auth/twitter/callback' => 'sessions#create'
   match '/auth/facebook/callback' => 'sessions#create'
