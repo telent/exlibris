@@ -13,14 +13,13 @@
 <img id="logo_bookend_right" src="/logo-bookend-right.png">
 <a href="/"><img id="logo" alt="Ex Libris" src="/logo-text.png"></a>
 <div id="session">
-<%= if u=current_user then
-   [link_to("#{u.name} (#{u.fullname})",u)  ,
-    "/",
-    link_to("sign out","/logout") ].join(" ") 
-else
-   link_to("sign in",'/')  
-end
-%>
+<% if u=current_user then %>
+<%= link_to("#{u.name} (#{u.fullname})",u) %>
+ / 
+<%= link_to("sign out","/logout") %>
+<% else %>
+<%= link_to("sign in",'/')   %>
+<% end %>
 </div>
 <div class="divider" clear="both"> </div>
 </header>
