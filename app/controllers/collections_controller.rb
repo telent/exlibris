@@ -41,7 +41,7 @@ class CollectionsController < ApplicationController
   # POST /collections
   # POST /collections.json
   def create
-    @collection = Collection.new(params[:collection])
+    @collection = current_user.collections.build(params[:collection])
 
     respond_to do |format|
       if @collection.save
