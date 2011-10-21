@@ -1,20 +1,28 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <b>Id:</b>
-  <%= @collection.id %>
-</p>
+<h1> <%= link_to(@this.owner.name,@this.owner) +" / "+ (@this.name) %></h1>
 
-<p>
-  <b>User:</b>
-  <%= @collection.user %>
-</p>
+<h2>Books</h2>
 
-<p>
-  <b>Name:</b>
-  <%= @collection.name %>
-</p>
+<table>
+<tr>
+<% %w(Shelf Title Author Publisher ISBN).each do |t| %> <th><%= t %></th> 
+<% end %>
+</tr>
+<% @books.each do |book| %>
+<%=  render :partial=>"books/row", :locals => {
+      :book=>book,:columns=>[] 
+  } %>
+<% end %>
+  <tr>
+    <td colspan=7>
+<%= if current_user=@this.owner then 
+  link_to 'New Book',  new_book_path 
+end %>
+    </td>
+  </tr>
+</table>
 
 
-<%= link_to 'Edit', edit_collection_path(@collection) %> |
+<%= link_to 'Edit', edit_collection_path(@this) %> |
 <%= link_to 'Back', collections_path %>

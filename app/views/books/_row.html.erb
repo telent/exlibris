@@ -1,0 +1,21 @@
+<tr>
+<% if columns.member?(:owner) then %>
+<td><%= (o=book.shelf.owner) and link_to(o.name,o)   %></td>
+<% end %>
+<% if columns.member?(:shelf) then %>
+<td><%= s=book.shelf and link_to(s.name,s) %></td>
+<% end %>
+<% if columns.member?(:owner_shelf) then %>
+<td><%= [book.shelf.owner.name, book.shelf.name].join("/") %></td>
+<% end %>
+<td><%= link_to book.title,book %></td>
+<td><%= book.author %></td>
+<td><%= book.publisher %></td>
+<td><%= book.isbn %></td>
+<% if current_user.admin? || 
+   book.collection.permitted?(current_user,:edit) then %>
+<td><%= link_to 'Edit', edit_book_path(book) %></td>
+<td><%= link_to 'Destroy', book, confirm: 'Are you sure?', method:
+	:delete %>
+<% end %>
+</tr>
