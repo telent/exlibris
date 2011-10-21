@@ -20,6 +20,9 @@ class Collection < ActiveRecord::Base
     (user == self.user) || (user.admin?) || 
       self.acls.where(:user_id=>user.id,:permission=>permission).exists?
   end
+  def self.permitted?(user,permission)
+    true
+  end
   # the users returned from this method do not include admin users
   def permitted_users(permission)
     self.acls.where(:permission=>permission).map(&:user).push(self.user)

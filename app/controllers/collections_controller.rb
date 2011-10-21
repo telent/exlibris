@@ -25,7 +25,7 @@ class CollectionsController < ApplicationController
   # GET /collections/new
   # GET /collections/new.json
   def new
-    @collection = Collection.new
+    @collection = current_user.collections.build
 
     respond_to do |format|
       format.html # new.html.erb
