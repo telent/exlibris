@@ -55,7 +55,7 @@ class BookTest < MiniTest::Rails::Model
         Edition.expects(:google_lookup_isbn).with(@isbn).returns(nil)
         b=Book.new(:isbn=>@isbn,:owner=>@user)
         refute b.valid?
-        assert_match "Edition can't be blank", b.errors.full_messages.join
+        assert_match "Edition missing", b.errors.full_messages.join
       end
     end
     describe "when ISBN and author/title all provided" do

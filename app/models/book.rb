@@ -10,10 +10,19 @@ class Book < ActiveRecord::Base
 
   validates_associated :shelf
   validates_associated :edition
-  validates :edition_id,:presence=>true
+  # rails seems not to be terribly good at validating associations when
+  # the associated object is unsaved.  ENTRAILS ON A STICK
+  # validates :edition_id,:presence=>true 
+  validate :edition_exists
+  def edition_exists 
+    unless (self.edition || self.edition_id.present?) then
+      errors.add(:edition, "missing")
+    end
+  end
 
-  def initialize(a={},opts={})
+  def initialize(attr={},opts={})
     keys=self.class.attribute_names.map(&:to_sym)
+    a=Hash[attr.map {|k,v| [k.to_sym,v]}]
     if a[:isbn].present? then 
       e=Edition.find_by_isbn(a[:isbn])
     end
@@ -39,5 +48,10 @@ class Book < ActiveRecord::Base
   def author_sortkey; self.edition && self.edition.author_sortkey ;end
   def isbn; self.edition && self.edition.isbn ;end
   def publisher; self.edition && self.edition.publisher ;end
+
+  def save
+    e=self.edition and e.save
+    super
+  end
 
 end

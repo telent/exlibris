@@ -1,9 +1,16 @@
 class Edition < ActiveRecord::Base
   belongs_to :publication
-  validates :publication_id, :presence=>true
+  validates_associated :publication
   def title;    p=self.publication and p.title ;  end
   def author;    p=self.publication and p.author ;  end
   def author_sortkey;    p=self.publication and p.author_sortkey ;  end
+
+  validate :publication_exists
+  def publication_exists 
+    unless (self.publication || self.publication_id.present?) then
+      errors.add(:publication, "publication missing")
+    end
+  end
 
   def initialize(a={})
     if (a[:author].present? || a[:title].present? )
@@ -32,5 +39,9 @@ class Edition < ActiveRecord::Base
                  publication: p)
       end
     end
+  end
+  def save
+    p=self.publication and p.save
+    super
   end
 end
