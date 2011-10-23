@@ -42,7 +42,7 @@ class CollectionsController < ApplicationController
   # POST /collections.json
   def create
     @collection = current_user.collections.build(params[:collection])
-
+    warn [:coll,@collection]
     respond_to do |format|
       if @collection.save
         format.html { redirect_to @collection, notice: 'Collection was successfully created.' }

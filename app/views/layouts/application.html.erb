@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Exlibris</title>
+  <title>Logovore</title>
   <%= stylesheet_link_tag "application" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
@@ -9,9 +9,9 @@
 </head>
 <body>
 <header>
-<img id="logo_bookend_left" src="/logo-bookend-left.png">
-<img id="logo_bookend_right" src="/logo-bookend-right.png">
-<a href="/"><img id="logo" alt="Ex Libris" src="/logo-text.png"></a>
+<a href="/">
+<%= image_tag "logovore-logo.png", id: "logo",alt: "LOGOVORE" %>
+</a>
 <div id="session">
 <% if u=current_user then %>
 <%= link_to("#{u.name} (#{u.fullname})",u) %>
@@ -21,7 +21,8 @@
 <%= link_to("sign in",'/')   %>
 <% end %>
 </div>
-<div class="divider" clear="both"> </div>
+<div class="divider" clear="both" > </div>
+
 </header>
 <article>
 <%= yield %>
