@@ -107,10 +107,11 @@ article {
 aside {
     position: absolute;
     width: 30%;
-    -webkit-border-image: url("/grey-border.png") 5 5 5 5 repeat;
-    border-image: url("/grey-border.png") 5 5 5 5 repeat;
+    border-radius: 8px;
     background-color: #eec;
-    border-width: 3.5px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #dd8;
     right: 1em;
     padding: 1em;
 }
@@ -140,10 +141,9 @@ b { font-weight: bold; }
 i { font-style: italic,oblique; }
 
 form select,input {
-    -webkit-border-image: url("/button-border.png") 7 7 7 7 repeat;
-    border-image: url("/button-border.png") 0 0 0 0 stretch;
     background-color: #eec;
-    border-width: 3.5px;
+    border-width: 1px;
+    border-radius: 4px;
 }
 form select,input[type=text] {
     width: 20em;
