@@ -3,7 +3,8 @@ class BooksController < ApplicationController
   # GET /books.json
   def index
     @books = current_user.books.sort_by(&:author_sortkey)
-    
+    @shelves=current_user.shelves.sort_by(&:name)
+    @collections=current_user.collections.sort_by(&:name)
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @books }

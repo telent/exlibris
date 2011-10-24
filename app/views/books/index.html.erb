@@ -1,24 +1,36 @@
+<%= javascript_include_tag "books_index" %>
+
 <h1>Books</h1>
 
+<form method=get id=organize>
+
+  <ul id=toolbar>
+    <li>  <select id=mark>
+	<option value=title>&#x2713;</option>
+	<option value=all>All</option>
+	<option value=none>None</option>
+	<option value=invert>Invert</option>
+    </select></li>
+    <li>  <%= collection_select(:reshelve,:shelf_id,@shelves,:id,:name,:prompt=>"Reshelve") %></li>
+    <li>
+      <%= collection_select(:collection,:collection_id,@collections,:id,:name,:prompt=>"Change
+      collection") %></li>
+  </ul>
+
+
 <table>
-  <tr>
-    <th>Where</th>
-    <th>Title</th>
-    <th>Author</th>
-    <th>Publisher</th>
-    <th>ISBN</th>
-  </tr>
 
 <% @books.each do |book| 
   if book.collection.permitted?(current_user,:browse) then %>
   <%= render :partial=>"row", :locals => {
-  :book=>book,:columns=>[:owner_shelf] 
+  :book=>book,:columns=>[:check,:owner_shelf] 
   } %>
 <%   end
   end
 %>
 </table>
-
+</form>
 <br />
 
 <%= link_to 'New Book', new_book_path %>
+

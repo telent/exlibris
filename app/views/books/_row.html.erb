@@ -1,4 +1,7 @@
 <tr>
+<% if columns.member?(:check) then %>
+<td class=check><input type=checkbox name=check value=<%= book.id %> /></td>
+<% end %>
 <% if columns.member?(:owner) then %>
 <td><%= (o=book.shelf.owner) and link_to(o.name,o)   %></td>
 <% end %>
