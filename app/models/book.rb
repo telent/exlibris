@@ -20,6 +20,10 @@ class Book < ActiveRecord::Base
     end
   end
 
+  def cover_image_url(size=:small)
+    "http://covers.openlibrary.org/b/isbn/#{self.isbn}-#{size.to_s[0].upcase}.jpg"
+  end
+
   def initialize(attr={},opts={})
     keys=self.class.attribute_names.map(&:to_sym)
     a=Hash[attr.map {|k,v| [k.to_sym,v]}]

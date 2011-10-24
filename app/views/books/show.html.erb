@@ -5,6 +5,8 @@
   <%= s=@book.shelf ; s && link_to([s.owner.name,s.name].join(" / "),s) %>
 </p>
 
+<%= image_tag @book.cover_image_url(:medium),:align=>:right,:alt=>"Cover image" %>
+
 <% if @book.borrower then %>
 <p>
   <b>Borrower:</b>
