@@ -121,10 +121,10 @@ footer {
     color: #333;
     font-size: 90%;
     text-align: center;
-    position: absolute;
-    width: 100%;
+    margin-top: 2em;
+    bottom: 0; 
+    width: 100%; height: 3em;
     display: block;
-    bottom: 0.5em;
     background-color: #89f;
 }
 footer .divider {
