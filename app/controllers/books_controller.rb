@@ -51,7 +51,6 @@ class BooksController < ApplicationController
 
     session[:shelf_id]=params[:book][:shelf_id]
     session[:collection_id]=params[:book][:collection_id]
-    warn [:saving,@book.inspect]
     respond_to do |format|
       if @book.save
         format.html { redirect_to new_book_path, notice: 'Book "#{book.title}" was successfully added.' }
