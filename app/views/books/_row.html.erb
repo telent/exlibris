@@ -15,6 +15,9 @@
 <td><%= book.author %></td>
 <td><%= book.publisher %></td>
 <td><%= book.isbn %></td>
+<% if columns.member?(:added) then %>
+<td><%= book.created_at %></td>
+<% end %>
 <% if current_user.admin? || 
    book.collection.permitted?(current_user,:edit) then %>
 <td><%= link_to 'Edit', edit_book_path(book) %></td>

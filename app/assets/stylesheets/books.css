@@ -20,6 +20,12 @@ form#organize table tr {
     border-width: 1px 1px 1px 1px;
 }
 
+form#organize th {
+    text-decoration: underline;
+    color: blue;
+    cursor: pointer;
+}
+
 form#organize select {
     width: 10em;
 }

@@ -5,25 +5,37 @@
 <form method=get id=organize>
 
   <ul id=toolbar>
-    <li>  <select id=mark>
-	<option value=title>&#x2713;</option>
-	<option value=all>All</option>
-	<option value=none>None</option>
-	<option value=invert>Invert</option>
-    </select></li>
+    <li> <b>Marked books</b> </li>
     <li>  <%= collection_select(:reshelve,:shelf_id,@shelves,:id,:name,:prompt=>"Reshelve") %></li>
     <li>
       <%= collection_select(:collection,:collection_id,@collections,:id,:name,:prompt=>"Change
       collection") %></li>
   </ul>
-
-
-<table>
-
+  <p> </p>
+  <table>
+    <tr>
+      <th class=check>
+	<select id=mark>
+	  <option value=title>&#x2713;</option>
+	  <option value=all>All</option>
+	  <option value=none>None</option>
+	  <option value=invert>Invert</option>
+	</select>
+      </th>
+      <th>Where</th>
+      <th>Title</th>
+      <th>Author</th>
+      <th>Publisher</th>
+      <th>ISBN</th>
+      <th>Added</th>
+      <th />
+      <th />
+    </tr>
+    
 <% @books.each do |book| 
   if book.collection.permitted?(current_user,:browse) then %>
   <%= render :partial=>"row", :locals => {
-  :book=>book,:columns=>[:check,:owner_shelf] 
+  :book=>book,:columns=>[:check,:owner_shelf,:added] 
   } %>
 <%   end
   end

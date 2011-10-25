@@ -2,9 +2,28 @@ class BooksController < ApplicationController
   # GET /books
   # GET /books.json
   def index
-    @books = current_user.books.sort_by(&:author_sortkey)
+    case (p=params[:sort] and p.to_sym)
+    when :where 
+    then @books=Book.joins(:shelf,:collection=>:user).order("users.name,shelves.name")
+    when :title
+    then @books=Book.joins(:edition => :publication).order("publications.title")
+    when :author
+    then @books=Book.joins(:edition => :publication).order("publications.author")
+    when :publisher 
+    then @books=Book.joins(:edition).order("editions.publisher")
+    when :isbn 
+    then @books=Book.joins(:edition).order("editions.isbn")
+    when :added
+    then @books=Book.order(:created_at)
+    else
+      @books=Book.order(:created_at)
+    end
+    if params[:direction]=='d' then
+      @books=@books.reverse
+    end
     @shelves=current_user.shelves.sort_by(&:name)
     @collections=current_user.collections.sort_by(&:name)
+    
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @books }
