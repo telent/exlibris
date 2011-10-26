@@ -9,6 +9,7 @@ gem "mocha"
 gem "patron"
 gem "omniauth", "= 0.3.0"
 gem "thin"
+gem "yaml_db"
 
 group :production do
   gem 'pg'
