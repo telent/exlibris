@@ -1,0 +1,20 @@
+@import "includes.css.scss";
+
+div.pagination {
+    width: 80%;
+    background-color:$bg-blue;
+    @include border-round;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    a,em.current {
+	padding: 4px 1em;
+	font-size: 110%;
+    }
+    em.current {
+	font-weight: bold;
+    }
+    a {
+	color: #a00;
+    }
+}
