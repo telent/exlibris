@@ -22,7 +22,8 @@ jQuery(document).ready(function() {
 		} else {
 		    params.sort=sort_key;
 		    params.direction = 'a';
-		}
+		};
+		params.page='1';
 		var  p_new=$.map(params,function(v,k) { return k+"="+v }).join("&");
 		document.location=document.location.pathname+"?"+p_new;
 	    });
