@@ -9,3 +9,10 @@ gem "mocha"
 gem "patron"
 gem "omniauth", "= 0.3.0"
 gem "thin"
+
+group :production do
+  gem 'pg'
+  gem 'uglifier'
+  gem 'therubyracer'
+end
+
