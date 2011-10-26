@@ -16,7 +16,7 @@
 <td><%= book.publisher %></td>
 <td><%= book.isbn %></td>
 <% if columns.member?(:added) then %>
-<td><%= book.created_at %></td>
+<td><%= book.created_at.to_s(:recent) %></td>
 <% end %>
 <% if current_user.admin? || 
    book.collection.permitted?(current_user,:edit) then %>
