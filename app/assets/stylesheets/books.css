@@ -13,6 +13,10 @@ form#organize table {
     width: 100%;
 }
 
+form#organize table col.added {
+    width: 17em;
+}
+
 form#organize table tr {
     background-color: #ddf;
     border-style: solid;
