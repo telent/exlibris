@@ -1,0 +1,10 @@
+/* -*- css -*- mode please */
+$bg-blue: #dde;
+$border-blue: #889;
+@mixin border-round {
+    border-style: solid;
+    border-width: 1px;
+    border-color: $border_blue;
+    border-radius: 4px;
+}
+

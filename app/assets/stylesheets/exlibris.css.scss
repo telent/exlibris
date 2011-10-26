@@ -1,19 +1,20 @@
-img#logo_bookend_right {    float: right; }
-img#logo_bookend_left {    float: left; }
+/* -*- css -*- mode please */
+@import "includes.css.scss";
+
 header {
     background-color: #89f;
     border: 0px; margin: 0px; 
-}
-header img#logo { 
-    margin-left: 1em; display: block  ;
-    padding-bottom: 8px;
-}
-
-header #session {
-    position: absolute;
-    right: 4em; top: 2.5em;
-    font-weight: bold;    
-    z-index: 1;
+    
+    img#logo { 
+    	margin-left: 1em; display: block  ;
+	padding-bottom: 8px;
+    }
+    #session {
+	position: absolute;
+	right: 4em; top: 2.5em;
+	font-weight: bold;    
+	z-index: 1;
+    }
 }
 .divider {
     margin-top: 0.5em;
@@ -32,13 +33,16 @@ table th {
 h1,h2,h3,h4 {
     font-weight: bold;
 }
+h1 { font-size: 150%; margin-top: 1em; margin-bottom: 1em; }
+h2 { font-size: 130%; margin-top: 1em; margin-bottom: 0.5em; }
+h3 { font-size: 110%; }
 
-ul li {
-    marker-style: circle;
-    margin-left: 2em;
-}
 ul {
     margin-bottom: 0.5em;
+    li {
+	marker-style: circle;
+	margin-left: 2em;
+    }
 }
 
 ul.tabs {
@@ -49,8 +53,8 @@ ul.tabs {
     border-bottom: 1px solid #999;
     border-left: 1px solid #999; 
     width: 98%;
-}
-ul.tabs li {
+
+    li {
         float: left;
         margin: 0;
         padding: 0;
@@ -62,18 +66,19 @@ ul.tabs li {
         overflow: hidden;
         position: relative;
         background: #dda;
-}
-ul.tabs li a {
-        text-decoration: none;
-        color: #000;
-        display: block;
-        font-size: 1.2em;
-        padding: 0 20px;
-        border: 1px solid #fff; /*--Gives the bevel look with a 1px white border inside the list item--*/
-        outline: none;
-}
-ul.tabs li a:hover {
-        background: #cc9;
+	a {
+            text-decoration: none;
+            color: #000;
+            display: block;
+            font-size: 1.2em;
+            padding: 0 20px;
+            border: 1px solid #fff; /*--Gives the bevel look with a 1px white border inside the list item--*/
+            outline: none;
+	}
+	a:hover {
+            background: #cc9;
+	}
+    }
 }
 html ul.tabs li.active, html ul.tabs li.active a:hover  { /*--Makes sure that the active tab does not listen to the hover properties--*/
         background: #fff;
@@ -109,11 +114,9 @@ aside {
     width: 30%;
     border-radius: 8px;
     background-color: #eec;
-    border-style: solid;
-    border-width: 1px;
-    border-color: #dd8;
     right: 1em;
     padding: 1em;
+    @include border-round;
 }
     
 
@@ -132,9 +135,6 @@ footer .divider {
     margin-top: 0em;
 }
 
-h1 { font-size: 150%; margin-top: 1em; margin-bottom: 1em; }
-h2 { font-size: 130%; margin-top: 1em; margin-bottom: 0.5em; }
-h3 { font-size: 110%; }
 p { margin-bottom: 0.5em; }
 
 b { font-weight: bold; }

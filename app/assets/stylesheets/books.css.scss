@@ -1,0 +1,62 @@
+/* -*- css -*- mode please */
+@import "includes.css.scss";
+
+form#organize {
+    select {	width: 10em;    }   
+    select#mark {	width: 2.5em;    }
+    ul#toolbar {
+	list-style: none; 
+	margin: 0; padding: 0;
+	li { 
+	    display: inline; 
+	    margin: 0 2em 0 0;
+	}
+    }
+    td.check,th.check {
+	width: 1.5em;
+	margin: 0; padding: 0;
+	text-align: center;
+    }
+    th.check {
+	padding-left: 4px;
+    }
+ 
+    table {
+	margin-top: 8px;
+	width: 100%;
+	col.added { width: 17em; }
+	col.title { width: 18em; }
+	col.author { width: 18em; }
+	tr {
+	    background-color: #ddf;
+	    border-style: solid;
+	    border-color: #bbb;
+	    border-width: 1px 1px 1px 1px;
+	}
+	th {
+	    text-decoration: underline;
+	    color: blue;
+	    cursor: pointer;
+	    background-color: #ccd;
+	}
+    }
+}
+
+div.pagination {
+    width: 80%;
+    background-color:$bg-blue;
+    @include border-round;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    a,em.current {
+	padding: 4px 1em;
+	font-size: 110%;
+    }
+    em.current {
+	font-weight: bold;
+    }
+    a {
+	color: #a00;
+    }
+}

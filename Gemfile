@@ -11,6 +11,7 @@ gem "omniauth", "= 0.3.0"
 gem "thin"
 gem 'will_paginate', '~> 3.0'
 gem "yaml_db"
+gem "sass"
 
 group :production do
   gem 'pg'
