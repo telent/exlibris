@@ -19,7 +19,7 @@ class BooksController < ApplicationController
       @books=Book.order(:created_at)
     end
     if params[:direction]=='d' then
-      @books=@books.reverse
+      @books=@books.reverse_order
     end
     @books=@books.paginate page: params[:page], per_page: 20
     @shelves=current_user.shelves.sort_by(&:name)
