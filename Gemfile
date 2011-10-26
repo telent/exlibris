@@ -10,6 +10,7 @@ gem "patron"
 gem "omniauth", "= 0.3.0"
 gem "thin"
 gem 'will_paginate', '~> 3.0'
+gem "yaml_db"
 
 group :production do
   gem 'pg'
