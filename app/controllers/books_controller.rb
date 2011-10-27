@@ -31,6 +31,22 @@ class BooksController < ApplicationController
     end
   end
 
+  def organize
+    books=Book.where(:id=> params[:check].map(&:to_i))
+    if s=params[:reshelve][:shelf_id] and s.present? and 
+        shelf=Shelf.find(s.to_i) and
+        shelf.owner == current_user
+      books.update_all :shelf_id=>shelf.id
+    end
+    if c=params[:collection][:collection_id] and c.present? and
+        collection=Collection.find(c.to_i) and
+        collection.owner == current_user
+      books.update_all :collection_id=>collection.id
+    end
+      
+    redirect_to :action => :index
+  end 
+
   # GET /books/1
   # GET /books/1.json
   def show

@@ -2,14 +2,15 @@
 
 <h1>Books</h1>
 
-<form method=get id=organize>
-
+<%= form_tag url_for(action: 'organize'),id: 'organize' do %>
   <ul id=toolbar>
     <li> <b>Marked books</b> </li>
     <li>  <%= collection_select(:reshelve,:shelf_id,@shelves,:id,:name,:prompt=>"Reshelve") %></li>
     <li>
       <%= collection_select(:collection,:collection_id,@collections,:id,:name,:prompt=>"Change
       collection") %></li>
+    <li>
+      <input type=submit value=Update />
   </ul>
   <p> </p>
   <table>
@@ -53,7 +54,7 @@
 %>
 </table>
 
-</form>
+<% end # form %>
 <br />
 <p><%= will_paginate @books %></p>
 <%= link_to 'New Book', new_book_path %>

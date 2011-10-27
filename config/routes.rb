@@ -12,6 +12,9 @@ Exlibris::Application.routes.draw do
     resources :books
   end
   resources :books do
+    collection do
+      post 'organize'
+    end
     resources :reviews
   end
 
