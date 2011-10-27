@@ -1,19 +1,44 @@
+var previously_selected;
 
 jQuery(document).ready(function() {
 	$('select#mark').change(function(e) {
-		v=e.target.value;
+		var v=e.target.value;
+		var sel='td.check input[type=checkbox]';
 		if(v=='all') {
-		    $('input[name=check]').prop("checked",true);
+		    $(sel).attr("checked","checked");
 		} else if(v=='none') {
-		    $('input[name=check]').prop("checked",false);
+		    $(sel).removeAttr("checked");
 		} else if(v=='invert') {
-		    $('input[name=check]').map(function(i,el) {
-			    el.checked = !(el.checked);
+		    $(sel).map(function(i,el) {
+			    if(el.checked) $(el).removeAttr("checked");
+			    else $(el).attr("checked","checked");
 			});
 		}
 		e.preventDefault();
 		e.target.value='title';
 	    });
+	$('input[type=checkbox]').click(function(e) {
+		// mimic the gmail behaviour for shift-clicks:
+		// if this box is to be checked, also check
+		// every box between this one and the previous most recently
+		// clicked box.  If to be unchecked, uncheck
+		// likewise
+		if(e.shiftKey && previously_selected) {
+		    var tr=$(e.target).closest("tr");
+		    var rng=tr.nextUntil(previously_selected);
+		    // nextUntil returns all following siblings if 
+		    // the arg selector is not found, hence this rather
+		    // involved test to see if we should be looking upward
+		    // or downward
+		    if (!rng.last().next().length) {
+			    rng=previously_selected.nextUntil(tr);
+			}
+		    rng.map(function(i,el) { $("input[type=checkbox]",el)[0].checked=e.target.checked});		    
+		}
+		previously_selected=$(e.target).closest("tr");
+
+	    });
+
 	$("table th").click(function(e) {
 		var sort_key=e.target.firstChild.textContent.toLowerCase();
 		var params=document.location.search.substr(1).split('&').reduce(function(h,p) { var kv=p.split('=',2); h[kv[0]]=kv[1] ; return h }, {});
