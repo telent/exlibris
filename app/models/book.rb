@@ -47,6 +47,23 @@ class Book < ActiveRecord::Base
     end
   end
 
+  def lend(borrower)
+    if self.borrower then
+      raise Exception,"Can't loan to two people at once"
+    else
+      self.borrower=borrower
+      save
+    end
+  end
+
+  def on_loan?
+    !! borrower
+  end
+    
+  def return
+    self.borrower=nil
+  end
+  
   def title; self.edition && self.edition.title ;end
   def author; self.edition && self.edition.author ;end
   def author_sortkey; self.edition && self.edition.author_sortkey ;end

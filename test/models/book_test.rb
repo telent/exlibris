@@ -88,6 +88,41 @@ class BookTest < MiniTest::Rails::Model
       m2.stubs(:collect).returns []
       assert b.valid? #,b.errors.full_messages.join(" ")
     end
+    describe "#lend" do
+      before do
+        @borrower=User.new(:id=>-11,:name=>"borrower")
+        m=mock_edition()
+        Edition.expects(:find_by_isbn).with(@isbn).returns(m)
+        m.stubs(:save)
+        m.stubs(:new_record?)
+        m.stubs(:destroyed?)
+        m.stubs(:valid?).returns(true)
+        m.stubs(:collect).returns []
+
+        @book=Book.new(:isbn=>@isbn,:owner=>@user)
+      end
+
+      it "can be lent if on shelf" do
+        @book.lend(@borrower)
+        assert_equal @borrower, @book.borrower
+        assert @book.on_loan?
+      end
+
+      it "can be returned if lent" do
+        @book.lend(@borrower)
+        @book.return
+        refute @book.on_loan?
+      end
+
+      it "cannot be lent if already on loan" do  
+        @thief=User.new(:id=>-12,:name=>"borrower 3")
+        @book.lend(@borrower)
+        assert_raises(Exception) {
+          @book.lend(@thief)
+        }
+        assert_equal @borrower, @book.borrower
+      end
+    end
   end
 end
        
