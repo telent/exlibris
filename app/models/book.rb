@@ -2,7 +2,7 @@ require_relative "../../lib/projectable"
 
 
 class Book < ActiveRecord::Base
-  belongs_to :owner,:class_name=>"User"
+  has_one :owner,:class_name=>"User", :through=>:shelf
   belongs_to :borrower,:class_name=>"User"
   belongs_to :shelf
   belongs_to :edition
@@ -50,6 +50,8 @@ class Book < ActiveRecord::Base
   def lend(borrower)
     if self.borrower then
       raise Exception,"Can't loan to two people at once"
+    elsif borrower==self.owner then
+      raise Exception,"Can't lend to owner"
     else
       self.borrower=borrower
       save

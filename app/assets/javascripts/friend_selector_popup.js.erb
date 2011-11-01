@@ -1,0 +1,33 @@
+// -*- java -*- mode
+
+function populate_friend_list(data,status,xhr) {
+    var element=$("#friend_dialog");
+    var span=$('span',element);
+    $(span).removeClass("loadingwait");
+    span[0].innerHTML=data;
+    $('.clicky',element[0]).click(function(e) {
+	    var el=$(e.target).closest("div.clicky");
+	    var id=el[0].getAttribute("data-id");
+	    var v=$('input[name=borrower_id]');
+	    v.val(id);
+	    v.closest("form").submit();
+	});
+}
+function fail_populate_friend_list(data,status,xhr) {
+    $("#friend_dialog")[0].innerHTML="<pre>no worky?!</pre>";
+}
+function popup_friend_selector(element) {
+    element=$(element);
+    var tr=element[0].getAttribute("data-target");
+    jQuery.ajax(tr,
+		{success: populate_friend_list,
+			error: fail_populate_friend_list});
+    element.dialog({width: 550, height: 300});
+}
+
+jQuery(document).ready(function() {
+	$('#lend').click(function(e) {
+		popup_friend_selector('#friend_dialog');
+	    });
+	popup_friend_selector('#friend_dialog');
+    });

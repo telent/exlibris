@@ -1,3 +1,5 @@
+<%= javascript_include_tag "friend_selector_popup" %>
+
 <p id="notice"><%= notice %></p>
 
 <p>
@@ -6,13 +8,6 @@
 </p>
 
 <%= image_tag @book.cover_image_url(:medium),:align=>:right,:alt=>"Cover image" %>
-
-<% if @book.borrower then %>
-<p>
-  <b>Borrower:</b>
-  <%= b=@book.borrower && link_to(b.name,b) %>
-</p>
-<% end %>
 
 <p>
   <b>Title:</b>
@@ -30,7 +25,33 @@
   <b>ISBN:</b>
   <%= @book.isbn %>
 </p>
-
+<% if @book.borrower then %>
+<p>
+  <b>Borrower:</b>
+  <%= b=@book.borrower && link_to(b.name,b) %>
+</p>
+<% end %>
 
 <%= link_to 'Edit', edit_book_path(@book) %> |
-<%= link_to 'Back', books_path %>
+<%= link_to 'Back', books_path %> |
+
+<%= if @book.on_loan? then
+    button_to 'Return to shelf',action: :return
+    end 
+%>
+
+<% if !(@book.on_loan?) then %>
+    <input type=button id=lend value="Lend" />
+<% end %>
+
+<div id="friend_dialog" title="Lend to whom?" 
+ data-target="<%= url_for friends_user_path(@book.shelf.owner) %>">
+  <span class=loadingwait> loading </span>
+<%= form_for @book, method: :post, :url => { action: 'lend'} do %>
+    <input name="borrower_id" type=hidden value='' />
+<% end %>
+</div>
+
+
+
+<br clear=both>

@@ -7,6 +7,9 @@ Exlibris::Application.routes.draw do
   # others' books
   resources :users do
     resources :collections
+    member do
+      get 'friends', as: :friends
+    end
   end
   resources :collections do
     resources :books
@@ -14,6 +17,10 @@ Exlibris::Application.routes.draw do
   resources :books do
     collection do
       post 'organize'
+    end
+    member do
+      post 'lend'
+      post 'return'
     end
     resources :reviews
   end

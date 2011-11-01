@@ -1,0 +1,30 @@
+/* -*- css -*- mode please */
+@import "includes.css.scss";
+
+#friend_dialog {
+    display: none;
+    padding: 0; border: 0; margin: 1em 0;	
+    div.clicky {
+	float: left;
+        width: 100px;
+	margin-bottom: 2em;
+	text-align: center;
+	font-size: 9pt;
+	font-weight: bold;
+	img {
+	    padding: 2px; 
+	    border: 1px solid $border-blue ;
+	    margin: 4px; 	   
+	    display: inline;
+	}
+	a {
+	    opacity: 0.6;
+	}
+	a:hover {
+	    opacity: 1;
+	}
+	a:hover {
+	    background-color: transparent;
+	}
+    }
+}

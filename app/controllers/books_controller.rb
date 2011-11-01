@@ -47,6 +47,13 @@ class BooksController < ApplicationController
     redirect_to :action => :index
   end 
 
+  def lend
+    book=Book.find(params[:id])
+    book.lend(User.find(params[:borrower_id]))
+    redirect_to :action=>:show
+  end
+
+
   # GET /books/1
   # GET /books/1.json
   def show

@@ -113,6 +113,13 @@ class BookTest < MiniTest::Rails::Model
         @book.return
         refute @book.on_loan?
       end
+      
+      it "can't be lent to its owner" do
+        assert_raises(Exception) {
+          @book.lend(@book.owner)
+        }
+        refute @book.on_loan?
+      end
 
       it "cannot be lent if already on loan" do  
         @thief=User.new(:id=>-12,:name=>"borrower 3")
