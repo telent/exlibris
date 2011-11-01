@@ -12,6 +12,7 @@ gem "thin"
 gem 'will_paginate', '~> 3.0'
 gem "yaml_db"
 gem "sass"
+gem "paperclip"
 
 group :production do
   gem 'pg'

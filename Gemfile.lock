@@ -34,6 +34,7 @@ GEM
     addressable (2.2.6)
     arel (2.2.1)
     builder (3.0.0)
+    cocaine (0.2.0)
     daemons (1.1.4)
     erubis (2.7.0)
     eventmachine (0.12.10)
@@ -111,6 +112,11 @@ GEM
       oa-more (= 0.3.0)
       oa-oauth (= 0.3.0)
       oa-openid (= 0.3.0)
+    paperclip (2.4.5)
+      activerecord (>= 2.3.0)
+      activesupport (>= 2.3.2)
+      cocaine (>= 0.0.2)
+      mime-types
     patron (0.4.16)
     pg (0.11.0)
     polyglot (0.3.2)
@@ -186,6 +192,7 @@ DEPENDENCIES
   minitest-rails
   mocha
   omniauth (= 0.3.0)
+  paperclip
   patron
   pg
   rails

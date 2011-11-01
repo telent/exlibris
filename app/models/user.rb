@@ -3,6 +3,27 @@ class User < ActiveRecord::Base
   has_many :collections
   has_many :authorizations
   has_many :books, :through=>:shelves
+  IMAGE_STYLES = {
+    :thumb=>"48x48>",
+    :small=>"150x150>",
+    :medium=>"300x300>"
+  }
+  has_attached_file :avatar,:styles=>IMAGE_STYLES
+
+  # favour local upload then gravatar.  Pass any image set by remote
+  # auth service at registration (e.g. twitter, facebook) to gravatar
+  # as default, so it scales for us
+  def image_url(size=:small)
+    if self.avatar.present? then 
+      self.avatar.url(size)
+    else
+      e=self.email_address || 'nobody@example.com'
+      fallback= if self.image then CGI.escape(fallback) else "mm" end
+      grav_id=Digest::MD5.hexdigest(e.downcase)
+      "http://gravatar.com/avatar/#{grav_id}.png?s=#{IMAGE_STYLES[size]}&d=#{fallback}"
+    end
+  end
+      
 
   # these are placeholder methods
   def admin?

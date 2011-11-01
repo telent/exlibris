@@ -2,6 +2,8 @@
 
 <h1><%= "#{@user.name} (#{@user.fullname})" %></h1>
 
+<%= image_tag @user.image_url(:medium), class: 'avatar' %> 
+
 <div class=todo>This should be the user public profile page,
 containing name, contact details, any kind of relevant bio,
 approximate geographical location, etc.  current_user is permitted to
