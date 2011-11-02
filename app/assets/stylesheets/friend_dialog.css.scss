@@ -3,14 +3,15 @@
 
 #friend_dialog {
     display: none;
-    padding: 0; border: 0; margin: 1em 0;	
+    padding: 0; border: 0; margin: 1em 0;
     div.clicky {
 	float: left;
-        width: 100px;
+        width: 80px; // thumbnails are 48px
 	margin-bottom: 2em;
 	text-align: center;
-	font-size: 9pt;
-	font-weight: bold;
+	font-size: 8pt;
+	line-height: 95%;
+	color: black;
 	img {
 	    padding: 2px; 
 	    border: 1px solid $border-blue ;
@@ -18,10 +19,13 @@
 	    display: inline;
 	}
 	a {
-	    opacity: 0.6;
+	    opacity: 0.8;
 	}
 	a:hover {
 	    opacity: 1;
+	    img {
+		background-color: $border-blue;
+	    }
 	}
 	a:hover {
 	    background-color: transparent;

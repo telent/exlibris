@@ -1,6 +1,6 @@
 <% @friends.each do |f| %>
 <div class="clicky" data-id="<%= f.id %>">
-<a><img src="<%= f.image_url %>" />
+<a><img src="<%= f.image_url(:thumb) %>" />
 <%= f.name %><br>(<%= f.fullname %>) 
 </a></div>
 <% end %>

@@ -18,7 +18,7 @@ class User < ActiveRecord::Base
       self.avatar.url(size)
     else
       e=self.email_address || 'nobody@example.com'
-      fallback= if self.image then CGI.escape(fallback) else "mm" end
+      fallback= if self.image then CGI.escape(self.image) else "mm" end
       grav_id=Digest::MD5.hexdigest(e.downcase)
       "http://gravatar.com/avatar/#{grav_id}.png?s=#{IMAGE_STYLES[size]}&d=#{fallback}"
     end

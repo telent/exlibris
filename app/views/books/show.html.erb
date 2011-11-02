@@ -27,8 +27,8 @@
 </p>
 <% if @book.borrower then %>
 <p>
-  <b>Borrower:</b>
-  <%= b=@book.borrower && link_to(b.name,b) %>
+  <b>On loan to:</b>
+  <%= b=@book.borrower and link_to("#{b.name} (#{b.fullname})",b) %>
 </p>
 <% end %>
 
@@ -51,7 +51,5 @@
     <input name="borrower_id" type=hidden value='' />
 <% end %>
 </div>
-
-
 
 <br clear=both>
