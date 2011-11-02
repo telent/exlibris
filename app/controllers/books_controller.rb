@@ -53,6 +53,12 @@ class BooksController < ApplicationController
     redirect_to :action=>:show
   end
 
+  def return
+    book=Book.find(params[:id])
+    book.return
+    redirect_to :action=>:show
+  end
+
 
   # GET /books/1
   # GET /books/1.json

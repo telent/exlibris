@@ -3,8 +3,8 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <b>Home:</b>
-  <%= s=@book.shelf ; s && link_to([s.owner.name,s.name].join(" / "),s) %>
+  <b>Owner:</b>
+  <%= @book.owner.name %>
 </p>
 
 <%= image_tag @book.cover_image_url(:medium),:align=>:right,:alt=>"Cover image" %>
@@ -25,18 +25,21 @@
   <b>ISBN:</b>
   <%= @book.isbn %>
 </p>
-<% if @book.borrower then %>
 <p>
+<% if @book.borrower then %>
   <b>On loan to:</b>
   <%= b=@book.borrower and link_to("#{b.name} (#{b.fullname})",b) %>
-</p>
+<% else %>
+  <b>On shelf:</b>
+<%= s=@book.shelf ; s && link_to(s.name,s) %>
 <% end %>
+</p>
 
 <%= link_to 'Edit', edit_book_path(@book) %> |
 <%= link_to 'Back', books_path %> |
 
 <%= if @book.on_loan? then
-    button_to 'Return to shelf',action: :return
+    button_to 'Return to shelf',action: :return, method: :post
     end 
 %>
 

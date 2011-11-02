@@ -64,6 +64,7 @@ class Book < ActiveRecord::Base
     
   def return
     self.borrower=nil
+    self.save
   end
   
   def title; self.edition && self.edition.title ;end
