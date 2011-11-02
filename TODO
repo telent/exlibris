@@ -76,3 +76,72 @@ Thu Oct 20 13:00:33 2011
 New user creation should add a default collection
 New collection creation should allow acl to be copied from another collection
 Need an interface for editing an acl
+
+
+Sun Oct 23 15:26:00 2011
+
+Empirical testing says that adding books is really pretty easy.  It
+needs some more prominent error alert when a book is not found,
+though, and it doesn't scan the barcodes that borders stick to the
+backs of books
+
+It is too easy to add books to the wrong collection.  We need some
+kind of 'organize' facility which would allow mass
+reassignment/processing of many books at once
+- change collection
+- change shelf
+- sort by accession date/etc as well as by author
+
+Suggest we make this accessible from the 'books' collection resource.
+Default is to show all books in collections we can see (paginated,
+obviously), but we can add filters that combine
+
+owner_id=17&add_date=20111027&author=adams&shelf_id=2&collection_id=6
+
+each row has a check box against it.  There is a menu bar that
+gives options for what to do with selected rows, a la gmail
+
+- change collection
+- change shelf
+- delete
+
+We need a 'search'
+
+We need a warning when a duplicate book is added in case the same one
+has been scanned twice, and a field on the book to distinguish one
+copy from the next if there really is more than one
+
+Lending: needs implementing
+
+Reviews: needs implementing
+
+New User experience could be several billion times slicker
+
+News: some kind of channel to view changes in your network 
+- any changes to collections that you have viewing rights for
+- people you may know who have recently joined
+- loans from collections you can see
+- loans to people whose collections you can see
+
+if there is an opt-out per item for posting to the news channel, that
+makes the finer points of privacy easier to deal with, if you are
+lending/borrowing an embarrassing book
+
+Thu Oct 27 14:58:47 2011
+
+Let's think about lending
+
+1) a request to lend is just a message of some kind: it doesn't change
+book state in any way
+
+2) book#lend(borrower) changes borrower_id
+
+3) book#return deletes it again
+
+4) it should be possible from lend events and book-added events to
+work out when people are reading books and prompt them to perform
+reviews
+
+Mon Oct 31 15:39:13 2011
+
+'lend' button should pop up a list of potential lendees 
