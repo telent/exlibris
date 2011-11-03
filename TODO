@@ -144,4 +144,115 @@ reviews
 
 Mon Oct 31 15:39:13 2011
 
-'lend' button should pop up a list of potential lendees 
+'lend' button should pop up a list of potential lendees then when one
+of them is selected POST to /book/n/lend/ with param borrower_id=u
+
+Tue Nov  1 17:50:14 2011
+
+List of lendees should have an autocompleting text input so that
+people with loadsafriends don't have to search the lot
+
+There should be some way to combine a lend with an invite to the system
+
+If users A and B both invite C independently by different channels
+(e.g. email vs twitter), there should be some way for C to dedupe.
+Perhaps it would be easier for invites to be email-only, and send C to
+a link where he can add his choice of authorization token to the
+account thus created
+
+We need some fake users in the system so that we can dic around with lending.
+
+Wed Nov  2 16:31:34 2011
+
+Permissions and friends and shit:
+
+If there were only public collections, a user would still need some
+way to indicate who else's changes he's interested in.  Thus we need a
+concept of 'following', and a user can be notified when someone is
+following him so he can follow back or grant special permissions
+
+Profiles are always public.  Address info is whatever you want to put
+in there (lat/lng, postcode, locality, or random bollocks) 
+
+Default permissions, I think, are that profile is visible to all and
+primary collection is visible to all
+
+Thu Nov  3 11:43:00 2011
+
+OK, here's take n+1 on the permissions stuff
+
+1) profiles are public and can be seen by the whole internet.  maybe
+someday we'll do protected profiles but not today
+
+2) collections are/may be restricted: 
+* internet
+* registered users
+* named users
+
+don't know if there's a slick way to do this with joins.  perhaps by
+convention 'the internet' has uid -1 and 'registered user' has zero.
+perhaps this is premature optimization
+
+3) 'follow' relatioships exist as filters for the news/events feeds,
+but do not govern browsing visibility.  Following is asymmetric.  The
+user being followed is notified and may reciprocate and/or open private
+collections to the follower if he likes
+
+4) 
+
+This leads us into fresh consideration of the events feed.  Events are
+
+* 'new book'
+* 'new review'
+* 'now reading'
+* 'request to borrow'
+* 'lend' (from another perspective, 'borrow')
+* 'return'
+
+There must be an option at event creation to make that event private.
+Options: internet, registered users, "my friends of friends", "my
+friends", the people it names. 
+
+
+
+The event viewer may want to consolidate events into stories e.g. if a
+user adds 500 books when they first register, that's one story not
+500.  Stories may be tailored per-user - e.g. a 'lend' event will br
+presented differently depending whether you know the borrower or
+lender or both.
+
+We could also add a freeform 'wall post' story.  Named users in the
+story text will also have the post flagged for them
+
+Stories _about_ a user may be tweeted/facebooked on that user's wall.
+Stories _concerning_ a user might (if they're important) be emailed to that user
+
+
+
+Thu Nov  3 11:55:46 2011
+
+TODO: 
+
+1) permissions model as above
+2) events/stories
+3) reviews
+4) invites
+5) "moderator" and "librarian" interfaces, for cleaning up reviews and
+ tidying edition data resp.
+6) a new user should get a default collection
+7) UI for collection ACLs
+8) search books
+9) browsing interface for other people's books - by author or tag or something
+10) 'request to borrow' and/or 'wishlist' 
+11) home page
+
+Hope page for an established user will probably be mostly news feed.
+For a new user we want various tools to get him started
+
+* "complete your profile"
+* "add books"
+* "find people to follow"
+
+
+
+
