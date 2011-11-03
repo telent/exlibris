@@ -30,6 +30,13 @@ class UsersController < ApplicationController
       format.json { render json: @user }
     end
   end
+
+  def friends
+    # XXX when we implement borrow requests, this request should return
+    # users with borrow requests first, and other followers afterward
+    @friends=current_user.followers
+    render "friends",  layout: nil
+  end
   
   # GET /users/new
   # GET /users/new.json

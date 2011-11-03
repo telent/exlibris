@@ -3,6 +3,12 @@ class User < ActiveRecord::Base
   has_many :collections
   has_many :authorizations
   has_many :books, :through=>:shelves
+  has_and_belongs_to_many :followers, class_name: "User",
+   join_table: :following,
+   foreign_key: :following_id, association_foreign_key: :follower_id
+  has_and_belongs_to_many :following, class_name: "User",
+   join_table: :following,
+   foreign_key: :follower_id, association_foreign_key: :following_id
   IMAGE_STYLES = {
     :thumb=>"48x48>",
     :small=>"150x150>",

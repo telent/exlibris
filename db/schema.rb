@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111101190832) do
+ActiveRecord::Schema.define(:version => 20111103103111) do
 
   create_table "authorizations", :force => true do |t|
     t.string   "provider"
@@ -68,6 +68,19 @@ ActiveRecord::Schema.define(:version => 20111101190832) do
   end
 
   add_index "editions", ["publication_id"], :name => "index_editions_on_publication_id"
+
+  create_table "following", :force => true do |t|
+    t.integer "follower_id"
+    t.integer "following_id"
+  end
+
+  add_index "following", ["follower_id"], :name => "index_following_on_follower_id"
+  add_index "following", ["following_id"], :name => "index_following_on_following_id"
+
+  create_table "followings", :force => true do |t|
+    t.integer "follower_id"
+    t.integer "following_id"
+  end
 
   create_table "publications", :force => true do |t|
     t.string   "author"
