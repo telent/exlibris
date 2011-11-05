@@ -2,7 +2,7 @@ class BooksController < ApplicationController
   # GET /books
   # GET /books.json
   def index
-    @books=curent_user.books
+    @books=current_user.books
     case (p=params[:sort] and p.to_sym)
     when :where 
     then @books=@books.joins(:shelf,:collection=>:user).order("users.name,shelves.name")
