@@ -2,21 +2,22 @@ class BooksController < ApplicationController
   # GET /books
   # GET /books.json
   def index
+    @books=cuurent_user.books
     case (p=params[:sort] and p.to_sym)
     when :where 
-    then @books=Book.joins(:shelf,:collection=>:user).order("users.name,shelves.name")
+    then @books=@books.joins(:shelf,:collection=>:user).order("users.name,shelves.name")
     when :title
-    then @books=Book.joins(:edition => :publication).order("publications.title")
+    then @books=@books.joins(:edition => :publication).order("publications.title")
     when :author
-    then @books=Book.joins(:edition => :publication).order("publications.author")
+    then @books=@books.joins(:edition => :publication).order("publications.author")
     when :publisher 
-    then @books=Book.joins(:edition).order("editions.publisher")
+    then @books=@books.joins(:edition).order("editions.publisher")
     when :isbn 
-    then @books=Book.joins(:edition).order("editions.isbn")
+    then @books=@books.joins(:edition).order("editions.isbn")
     when :added
-    then @books=Book.order(:created_at)
+    then @books=@books.order(:created_at)
     else
-      @books=Book.order(:created_at)
+      @books=@books.order(:created_at)
     end
     if params[:direction]=='d' then
       @books=@books.reverse_order
