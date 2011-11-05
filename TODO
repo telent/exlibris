@@ -324,5 +324,10 @@ end
 
 or something
 
+Sat Nov  5 17:03:48 2011
+
+checks for shelf/collection of a book should be moved into book validation
+
+
 	
 

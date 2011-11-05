@@ -50,12 +50,14 @@ class BooksController < ApplicationController
 
   def lend
     book=Book.find(params[:id])
+    check_authorized { book.owner == current_user }
     book.lend(User.find(params[:borrower_id]))
     redirect_to :action=>:show
   end
 
   def return
     book=Book.find(params[:id])
+    check_authorized { book.owner == current_user }
     book.return
     redirect_to :action=>:show
   end
@@ -65,7 +67,7 @@ class BooksController < ApplicationController
   # GET /books/1.json
   def show
     @book = Book.find(params[:id])
-    
+    check_authorized { @book.collection.permitted?(current_user,:show) }
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @book }
@@ -75,11 +77,12 @@ class BooksController < ApplicationController
   # GET /books/new
   # GET /books/new.json
   def new
-    @book = Book.new(:shelf_id=>session[:shelf_id],
-                     :collection_id=>session[:collection_id])
+    # we don't need to go wild checking permissions here as all this
+    # does is display a form
     @shelves=current_user.shelves
     @collections=current_user.collections
-    
+    @book = Book.new(:shelf_id=>session[:shelf_id],
+                     :collection_id=>session[:collection_id])
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @book }
@@ -89,6 +92,7 @@ class BooksController < ApplicationController
   # GET /books/1/edit
   def edit
     @book = Book.find(params[:id])
+    check_authorized { @book.owner == current_user }
     @shelves=current_user.shelves
     @collections=current_user.collections
   end
@@ -99,7 +103,11 @@ class BooksController < ApplicationController
     @book = current_user.books.build(params[:book])
     @shelves=current_user.shelves
     @collections=current_user.collections
-
+    check_authorized { 
+      # make sure we're adding to our own shelf/collection
+      @shelves.map(&:id).member?(params[:book][:shelf_id]) &&
+      @collections.map(&:id).member?(params[:book][:collection_id])
+    }
     session[:shelf_id]=params[:book][:shelf_id]
     session[:collection_id]=params[:book][:collection_id]
     respond_to do |format|
@@ -117,6 +125,9 @@ class BooksController < ApplicationController
   # PUT /books/1.json
   def update
     @book = Book.find(params[:id])
+    check_authorized { 
+      @book.owner == current_user
+    }
 
     respond_to do |format|
       if @book.update_attributes(params[:book])
@@ -133,6 +144,9 @@ class BooksController < ApplicationController
   # DELETE /books/1.json
   def destroy
     @book = Book.find(params[:id])
+    check_authorized { 
+      @book.owner == current_user
+    }
     @book.destroy
 
     respond_to do |format|
