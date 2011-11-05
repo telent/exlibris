@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
   end
   helper_method :current_user
   def check_authorized
-    unless yield then 
+    unless (current_user.admin? || yield) then 
       response.status=401
       raise ActiveResource::UnauthorizedAccess.new(response)
     end

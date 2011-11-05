@@ -2,7 +2,7 @@ class ShelvesController < ApplicationController
   # GET /shelves
   # GET /shelves.json
   def index
-    @shelves = Shelf.all
+    @shelves = current_user.shelves.all
 
     respond_to do |format|
       format.html # index.html.erb
@@ -14,6 +14,7 @@ class ShelvesController < ApplicationController
   # GET /shelves/1.json
   def show
     @shelf = Shelf.find(params[:id])
+    check_authorized { @shelf.owner == current_user }
     @books = @shelf.books.sort_by(&:author_sortkey)
     respond_to do |format|
       format.html # show.html.erb
@@ -35,6 +36,7 @@ class ShelvesController < ApplicationController
   # GET /shelves/1/edit
   def edit
     @shelf = Shelf.find(params[:id])
+    check_authorized { @shelf.owner == current_user }
   end
 
   # POST /shelves
@@ -73,6 +75,7 @@ class ShelvesController < ApplicationController
   # DELETE /shelves/1.json
   def destroy
     @shelf = Shelf.find(params[:id])
+    check_authorized { @shelf.owner == current_user }
     @shelf.destroy
 
     respond_to do |format|
