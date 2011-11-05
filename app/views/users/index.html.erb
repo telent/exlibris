@@ -3,16 +3,13 @@
 <table>
   <tr>
     <th>Name</th>
-    <th>Fullname</th>
+    <th>Full name</th>
     <th></th>
     <th></th>
     <th></th>
   </tr>
 
-<% @users.each do |user| 
-  if user.visible?(current_user) then
-%>
-
+<% @users.each do |user| %>
   <tr>
     <td><%= link_to user.name,user %></td>
     <td><%= user.fullname %></td>
@@ -22,10 +19,10 @@
     :delete %></td>
 <% end %>
   </tr>
-<%    end
-  end %>
+<% end %>
 </table>
 
 <br />
+<p><%= will_paginate @users %></p>
 
 <%= link_to 'New User', new_user_path %>
