@@ -3,6 +3,7 @@ class EditionsController < ApplicationController
   # GET /editions.json
   def index
     @editions = Edition.all
+    check_authorized { false && "editions editing is admin-only for now" }
 
     respond_to do |format|
       format.html # index.html.erb
@@ -50,6 +51,7 @@ class EditionsController < ApplicationController
   # GET /editions/1
   # GET /editions/1.json
   def show
+    check_authorized { false && "editions editing is admin-only for now" }
     @edition = Edition.find(params[:id])
 
     respond_to do |format|
@@ -61,6 +63,7 @@ class EditionsController < ApplicationController
   # GET /editions/new
   # GET /editions/new.json
   def new
+    check_authorized { false && "editions editing is admin-only for now" }
     @edition = Edition.new
 
     respond_to do |format|
@@ -71,12 +74,14 @@ class EditionsController < ApplicationController
 
   # GET /editions/1/edit
   def edit
+    check_authorized { false && "editions editing is admin-only for now" }
     @edition = Edition.find(params[:id])
   end
 
   # POST /editions
   # POST /editions.json
   def create
+    check_authorized { false && "editions editing is admin-only for now" }
     @edition = Edition.new(params[:edition])
 
     respond_to do |format|
@@ -93,6 +98,7 @@ class EditionsController < ApplicationController
   # PUT /editions/1
   # PUT /editions/1.json
   def update
+    check_authorized { false && "editions editing is admin-only for now" }
     @edition = Edition.find(params[:id])
 
     respond_to do |format|
@@ -109,6 +115,7 @@ class EditionsController < ApplicationController
   # DELETE /editions/1
   # DELETE /editions/1.json
   def destroy
+    check_authorized { false && "editions editing is admin-only for now" }
     @edition = Edition.find(params[:id])
     @edition.destroy
 
