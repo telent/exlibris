@@ -1,7 +1,6 @@
 class CollectionsController < ApplicationController
   # GET /collections
   # GET /collections.json
-  before_filter :check_rights
 
   def index
     @collections = current_user.collections
@@ -15,6 +14,8 @@ class CollectionsController < ApplicationController
   # GET /collections/1
   # GET /collections/1.json
   def show
+    @this = Collection.find id
+    check_authorized { @this.permitted?(current_user,:show) }
     @books=@this.books.all.sort_by(&:author_sortkey)
     respond_to do |format|
       format.html # show.html.erb
@@ -36,13 +37,13 @@ class CollectionsController < ApplicationController
   # GET /collections/1/edit
   def edit
     @collection = Collection.find(params[:id])
+    check_authorized { @collection.owner == current_user}
   end
 
   # POST /collections
   # POST /collections.json
   def create
     @collection = current_user.collections.build(params[:collection])
-    warn [:coll,@collection]
     respond_to do |format|
       if @collection.save
         format.html { redirect_to @collection, notice: 'Collection was successfully created.' }
@@ -58,7 +59,7 @@ class CollectionsController < ApplicationController
   # PUT /collections/1.json
   def update
     @collection = Collection.find(params[:id])
-
+    check_authorized { @collection.owner == current_user}
     respond_to do |format|
       if @collection.update_attributes(params[:collection])
         format.html { redirect_to @collection, notice: 'Collection was successfully updated.' }
@@ -74,6 +75,7 @@ class CollectionsController < ApplicationController
   # DELETE /collections/1.json
   def destroy
     @collection = Collection.find(params[:id])
+    check_authorized { @collection.owner == current_user}
     @collection.destroy
 
     respond_to do |format|
@@ -82,15 +84,4 @@ class CollectionsController < ApplicationController
     end
   end
 
-  protected
-  def check_rights
-    if id=params[:id] then
-      @this = Collection.find id
-    else
-      @this=Collection
-    end
-    if !@this.permitted?(current_user,action_name) then
-      render :text=>"Unauthorized", :status=>401
-    end
-  end
 end
