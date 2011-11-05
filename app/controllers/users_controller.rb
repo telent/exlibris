@@ -20,9 +20,7 @@ class UsersController < ApplicationController
     @collections=@user.collections.select {|c| 
       c.permitted?(current_user,:show)
     }
-    @shelves=@user.shelves.select {|s| 
-      s.permitted?(current_user,:show)
-    }
+    @shelves=(@user==current_user) && @user.shelves
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @user }
