@@ -246,13 +246,83 @@ TODO:
 10) 'request to borrow' and/or 'wishlist' 
 11) home page
 
-Hope page for an established user will probably be mostly news feed.
+Home page for an established user will probably be mostly news feed.
 For a new user we want various tools to get him started
 
 * "complete your profile"
 * "add books"
 * "find people to follow"
 
+Thu Nov  3 18:11:30 2011
+
+Permissions: 
+
+a) the #check_rights before_filter, or something like it, is good.  It
+should be implemented as an includable module, though, not copypasted.
+Or maybe we could even add it to ApplicationController
+
+ before_filter :check_rights, :except=>:sessions
+
+or
+class SessionController
+    skip_before_filter :check_rights
+
+In theory there should be a better way to tell if we're a member route or a
+collection route than by testing for params[:id], but I can't find it
+
+b) for processing collections in which each item may have different
+perms, do we need a standard way of saying "give me only the ones that
+A User can see"?  Ideally we would wish to push this down into the db
+in some way
+
+Collection.find(n).books.permitted(current_user,:show)
+
+scope permitted, lambda(user,action) {
+  where("exists(select user_id from collections_acl where collection_id=#{table_name}.id)",user.id)
+}
+
+def permitted?(user,action)
+  !! self.class.permitted(user,action).find(self.id)
+end
+
+in very few places do we have an interesting route that views an
+entire collection itself: usually we're following a has_many
+association from some other object.  e.g. shelves/2/show calling
+Shelf.find(2).books
 
 
+
+Fri Nov  4 11:55:29 2011
+
+Invites: if collections default to public view anyway, do we need
+invites as much?  It's easy to mail someone a link to your collection
+that they can view: then they can sign up if they want to
+
+Fri Nov  4 12:16:01 2011
+
+It feels a bit wrong to have methods on the model that are expected to
+know whether *controller* actions are allowed.  It might be better to
+tie permissions to model actions
+
+:edit
+:show
+:create
+:delete
+
+or maybe we're over-engineering again.
+
+we could do with a scope on each class though that confines 
+
+Fri Nov  4 16:24:08 2011
+
+All we really need is 
+
+check_authorized do
+  @book=Book.find(params[:id])
+  @book.some_attribute==true
+end
+
+or something
+
+	
 
