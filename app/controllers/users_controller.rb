@@ -51,8 +51,9 @@ class UsersController < ApplicationController
   end
 
   # GET /users/1/edit
-  def edit
-    
+  def edit 
+    @user=User.find(params[:id])
+    check_authorized { @user==current_user }
   end
 
   # POST /users
@@ -74,6 +75,8 @@ class UsersController < ApplicationController
   # PUT /users/1
   # PUT /users/1.json
   def update
+    @user=User.find(params[:id])
+    check_authorized { @user==current_user }
 
     respond_to do |format|
       if @user.update_attributes(params[:user])
@@ -89,6 +92,7 @@ class UsersController < ApplicationController
   # DELETE /users/1
   # DELETE /users/1.json
   def destroy
+    check_authorized { @user==current_user or current_user.admin? }
     @user.destroy
 
     respond_to do |format|
@@ -97,16 +101,4 @@ class UsersController < ApplicationController
     end
   end
 
-  protected
-  def check_rights
-    if id=params[:id] then
-      @user = User.find id
-    else
-      @user=User
-    end
-    warn [:action,action_name,:user,@user,:current,current_user]
-    if !@user.permitted?(current_user,action_name) then
-      render :text=>"Unauthorized", :status=>401
-    end
-  end
 end
