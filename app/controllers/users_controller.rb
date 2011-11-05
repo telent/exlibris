@@ -17,6 +17,7 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
+    @user=User.find(params[:id])
     @collections=@user.collections.select {|c| 
       c.permitted?(current_user,:show)
     }
@@ -30,7 +31,11 @@ class UsersController < ApplicationController
   def friends
     # XXX when we implement borrow requests, this request should return
     # users with borrow requests first, and other followers afterward
-    @friends=current_user.followers
+    @user=User.find(params[:id])
+    check_authorized do
+      @user==current_user
+    end
+    @friends=@user.followers
     render "friends",  layout: nil
   end
   
