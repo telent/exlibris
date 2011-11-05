@@ -11,43 +11,6 @@ class EditionsController < ApplicationController
     end
   end
 
-  def isbn
-    isbn=params[:id].gsub(/[^\d]/,"")
-    if (isbn.length <10)
-      raise ActionController::RoutingError.new('Not Found')
-    end
-    @edition = Edition.find_by_isbn(isbn)
-    if @edition.nil? then
-      # I am told that Rails is single-threaded.  If I'm wrong,
-      # and a controller can be sent this message twice, bad things
-      # may happen
-      begin
-        @patron||=Patron::Session.new
-        @patron.base_url="https://www.googleapis.com/"
-        r=@patron.get("/books/v1/volumes?q=isbn:#{isbn}")
-        if (r.status==200) then
-          data=JSON.parse(r.body)["items"][0]["volumeInfo"]
-          p=Publication.create(title: data["title"],
-                               author: data["authors"].join(", "))
-          @edition=Edition.create(publisher: data["publisher"],
-                                  isbn: isbn,
-                                  publication: p)
-        end                                 
-      rescue Error => e
-        nil
-      end
-    end
-    respond_to do |format|
-      format.json { 
-        if @edition then
-          render json: {title: @edition.title, author: @edition.author, publisher: @edition.publisher, picture: @edition.picture }
-        else
-          render :status => :not_found
-        end
-      }
-    end
-  end
-
   # GET /editions/1
   # GET /editions/1.json
   def show
