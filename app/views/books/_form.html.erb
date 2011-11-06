@@ -22,8 +22,13 @@
 	:include_blank => '(guess collection)' 
     }) %>
   </div>
-
-  <% [:isbn,:title,:author,:publisher].each do |name| %>
+  <div class="field">
+    <%= f.label "ISBN" %>
+    <%= f.text_field :isbn %>
+  <a href="<%= "http://zxing.appspot.com/scan?ret=#{URI::escape(request.url+'?isbn={CODE}')}" %>">
+   <img style="position: relative; top: 7px; left: 4px" src="/barcode.png" alt="Mobile barcode scan" /></a>
+  </div>
+  <% [:title,:author,:publisher].each do |name| %>
     <div class="field">
       <%= f.label name %>
       <%= f.text_field name %>

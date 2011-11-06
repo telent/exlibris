@@ -82,6 +82,7 @@ class BooksController < ApplicationController
     @shelves=current_user.shelves
     @collections=current_user.collections
     @book = Book.new(:shelf_id=>session[:shelf_id],
+                     :isbn=>params[:isbn],
                      :collection_id=>session[:collection_id])
     respond_to do |format|
       format.html # new.html.erb
