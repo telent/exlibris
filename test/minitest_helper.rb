@@ -1,5 +1,4 @@
 require "minitest/autorun"
-require "minitest/mock"
 require "minitest/rails"
 
 ENV["RAILS_ENV"] = "test"
