@@ -36,13 +36,21 @@ class Book < ActiveRecord::Base
       if e.nil? then
         e=Edition.google_lookup_isbn(a[:isbn])
       end
-      super(a.project(keys).merge(:edition=>e),opts)
+      super(a.project(keys).merge(:edition=>e,
+                                  :shelf=>a[:shelf],
+                                  :collection=>a[:collection]
+                                  ),opts)
     elsif e && [:author,:title,:publisher].all? {|k| e.send(k)==a[k] } then
-      super(a.project(keys).merge(:edition=>e),opts)
+      super(a.project(keys).merge(:edition=>e,
+                                  :shelf=>a[:shelf],
+                                  :collection=>a[:collection],
+                                  ),opts)
     else
       ks=(Edition.attribute_names+Publication.attribute_names).map(&:to_sym)
       e=Edition.new(a.project(ks))
-      super(a.project(keys).merge(:edition=>e),opts)
+      super(a.project(keys).merge(:edition=>e,                            
+                                  :shelf=>a[:shelf],
+                                  :collection=>a[:collection]),opts)
     end
   end
 
