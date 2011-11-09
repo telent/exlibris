@@ -40,8 +40,11 @@ class Edition < ActiveRecord::Base
       end
     end
   end
-  def save
+
+  before_save :save_publication
+  
+  private
+  def save_publication
     p=self.publication and p.save
-    super
   end
 end

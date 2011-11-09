@@ -1,6 +1,5 @@
 require_relative "../../lib/projectable"
 
-
 class Book < ActiveRecord::Base
   has_one :owner,:class_name=>"User", :through=>:shelf
   belongs_to :borrower,:class_name=>"User"
@@ -73,9 +72,11 @@ class Book < ActiveRecord::Base
   def isbn; self.edition && self.edition.isbn ;end
   def publisher; self.edition && self.edition.publisher ;end
 
-  def save
+  before_save :save_edition
+
+  private
+  def save_edition
     e=self.edition and e.save
-    super
   end
 
 end
