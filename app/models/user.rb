@@ -1,3 +1,4 @@
+
 class User < ActiveRecord::Base
   has_many :shelves,:foreign_key=>:owner_id
   has_many :collections

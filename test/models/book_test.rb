@@ -1,4 +1,4 @@
-require "minitest_helper"
+require_relative "../minitest_helper"
 require 'mocha'
 
 class BookTest < MiniTest::Rails::Model
@@ -8,9 +8,10 @@ class BookTest < MiniTest::Rails::Model
     @title='Time Out Of Joint'
     @isbn='9780140171730'
     @publisher='RoC'
+    @shelf=mock
+    @shelf.stubs(:owner).returns(@user)
   end
   
-
   def mock_edition
     e=mock
     e.stubs(:title=>@title,:author=>@author,
@@ -129,6 +130,23 @@ class BookTest < MiniTest::Rails::Model
         @book.lend(@thief)
       }
       assert_equal @borrower, @book.borrower
+    end
+  end
+  describe "#save" do
+    it "should create an event when a new book is saved" do
+      m=mock_edition
+      Edition.expects(:find_by_isbn).with(@isbn).returns(m)
+      [:save,:destroyed?,:new_record?].each do |meth| 
+        m.stubs meth
+      end
+      m.stubs(:collect).returns []
+      s=Shelf.new(:owner=>@user)
+      b=Book.new(:isbn=>@isbn,:shelf=>s)
+      Event.expects(:create).with(has_entries(:action=>:join))
+      Event.expects(:create).with(has_entries(:actor=>@user,
+                                              :book=>b,
+                                              :action=>:new))
+      b.save
     end
   end
 end
