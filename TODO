@@ -328,6 +328,67 @@ Sat Nov  5 17:03:48 2011
 
 checks for shelf/collection of a book should be moved into book validation
 
+maybe current_user should barf if not logged in.
 
+are we still using editions/isbn action for anything?
 	
+
+Sat Nov  5 17:27:22 2011
+
+what can we say about creating events and collating them into stories?
+Book#create, Review#create, Book#lend, Book#return
+
+Subject: John
+Verb: lent
+Object: Wyrd Sisters
+       (to)
+Indirect Object: Peter
+
+John
+added-to-his-library
+Dune
+
+John
+reclaimed
+Wyrd Sisters
+(from)
+Peter 
+
+John
+added-to-reading-list
+Dune
+
+John
+removed-from-reading-list
+Dune
+
+Spike
+joined-logovore
+
+All messages have verb and subject
+Some messages have (direct) object
+Some messages have indirect object
+
+where the subject/verb/indirect object are the same, chronologically adjacent
+events (separated by say < 30 minutes) can be coalesced into one story
+
+owner
+action
+book
+recipient
+timestamp
+ca
+
+when aggregating stories, it would be good if previously-viewed
+stories didn't change from underneath us.  e.g. if 48 books were added
+between 14:30 and 14:50 and another 20 between 15:02 and 15:20,
+whether this is reported as one story or two depends on whether we
+looked at our news feed between those two times.  We need  a marker
+to denote when the feed was viewed -  this could even be an event itself
+
+John
+looked-at-the-news
+
+
+
 
