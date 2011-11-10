@@ -61,4 +61,10 @@ class User < ActiveRecord::Base
     when :create then user.admin?
     end
   end
+
+  after_create :publish
+  private
+  def publish
+    Event.publish(:action=>:join,:actor=>self)
+  end
 end

@@ -81,10 +81,13 @@ class Book < ActiveRecord::Base
   def publisher; self.edition && self.edition.publisher ;end
 
   before_save :save_edition
+  after_create :publish
 
   private
   def save_edition
     e=self.edition and e.save
   end
-
+  def publish
+    Event.publish actor: self.owner, action: :new, book: self
+  end
 end

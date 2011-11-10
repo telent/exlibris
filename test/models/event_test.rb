@@ -7,4 +7,10 @@ class EventTest < MiniTest::Rails::Model
     e=Event.new(:action=>"Blend")
     refute e.valid?
   end
+  it "calls registered subscribers when an event is pushed" do
+    succeeded=false
+    Event.subscribe proc { succeeded=true }
+    Event.publish(action: :join, actor: User.create(name: "hellO" ))
+    assert succeeded
+  end
 end
