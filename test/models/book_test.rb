@@ -3,14 +3,21 @@ require 'mocha'
 
 class BookTest < MiniTest::Rails::Model
   before do
-    @user=User.new(:id=>-10,:name=>"dan")
+    @published=nil
+    @esubscriber=Event.subscribe proc {|e| 
+      @published=Hash[[:action,:actor,:book,:recipient].map{|m| [m,e.send(m)]}]
+    }
+    @user=User.create(:name=>"dan")
     @author='Philip K. Dick'
     @title='Time Out Of Joint'
     @isbn='9780140171730'
     @publisher='RoC'
-    @shelf=mock
-    @shelf.stubs(:owner).returns(@user)
+    @shelf=Shelf.create(:owner=>@user,:name=>"A SHELF")
   end
+  after do
+    Event.unsubscribe @esubscriber
+  end
+  
   
   def mock_edition
     e=mock
@@ -101,13 +108,18 @@ class BookTest < MiniTest::Rails::Model
       m.stubs(:valid?).returns(true)
       m.stubs(:collect).returns []
       
-      @book=Book.new(:isbn=>@isbn,:owner=>@user)
+      @book=Book.create(:isbn=>@isbn,:owner=>@user,:shelf=>@shelf)
     end
     
     it "can be lent if on shelf" do
       @book.lend(@borrower)
       assert_equal @borrower, @book.borrower
       assert @book.on_loan?
+
+      assert_equal :lend,@published[:action]
+      assert_equal @book,@published[:book]
+      assert_equal @user,@published[:actor]
+      assert_equal @borrower,@published[:recipient]
     end
     
     it "can be returned if lent" do
@@ -141,12 +153,11 @@ class BookTest < MiniTest::Rails::Model
       end
       m.stubs(:collect).returns []
       s=Shelf.new(:owner=>@user)
-      b=Book.new(:isbn=>@isbn,:shelf=>s)
-      Event.expects(:create).with(has_entries(:action=>:join))
-      Event.expects(:create).with(has_entries(:actor=>@user,
-                                              :book=>b,
-                                              :action=>:new))
-      b.save
+      b=Book.create(:isbn=>@isbn,:shelf=>s)
+      assert_equal :new,@published[:action]
+      assert_equal b,@published[:book]
+      assert_equal @user,@published[:actor]
+
     end
   end
 end

@@ -3,7 +3,6 @@ Time::DATE_FORMATS[:recent] = lambda{|time|
   now=Time.now
   today=now.beginning_of_day.to_i
   date=time.beginning_of_day.to_i
-  warn [(time-now).abs< 4*30*86400]
   date_part=
   if time<now-180*86400 || time>now+180*86400 then
     time.strftime("%a, %d %b %Y")

@@ -17,6 +17,11 @@ class Event < ActiveRecord::Base
   def self.subscribe(callable)
     raise "argument must be callable" unless callable.respond_to?(:call)
     @@subscribers << callable
+    callable
+  end
+
+  def self.unsubscribe(callable)
+    @@subscribers.delete(callable)
   end
 
   validates_each :action do |r,a,v|

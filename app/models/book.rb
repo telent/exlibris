@@ -61,6 +61,8 @@ class Book < ActiveRecord::Base
       raise Exception,"Can't lend to owner"
     else
       self.borrower=borrower
+      Event.publish(:actor=>self.owner,:action=>:lend,:recipient=>borrower,
+                    :book=>self)
       save
     end
   end
