@@ -72,8 +72,10 @@ class Book < ActiveRecord::Base
   end
     
   def return
+    b=self.borrower
     self.borrower=nil
     self.save
+    Event.publish(:actor=>b,:action=>:return,:book=>self)
   end
   
   def title; self.edition && self.edition.title ;end

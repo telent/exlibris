@@ -126,6 +126,9 @@ class BookTest < MiniTest::Rails::Model
       @book.lend(@borrower)
       @book.return
       refute @book.on_loan?
+      assert_equal :return,@published[:action]
+      assert_equal @book,@published[:book]
+      assert_equal @borrower,@published[:actor]
     end
     
     it "can't be lent to its owner" do
