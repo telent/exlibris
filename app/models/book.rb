@@ -4,6 +4,7 @@ class Book < ActiveRecord::Base
   has_one :owner,:class_name=>"User", :through=>:collection,:source=>:user
   belongs_to :borrower,:class_name=>"User"
   belongs_to :shelf
+  belongs_to :current_shelf,:class_name=>"Shelf"
   belongs_to :edition
   belongs_to :collection
 
@@ -77,6 +78,10 @@ class Book < ActiveRecord::Base
 
   def on_loan?
     !! borrower
+  end
+
+  def home?
+    (shelf == current_shelf) && !on_loan?
   end
     
   def return

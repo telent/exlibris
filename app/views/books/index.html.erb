@@ -5,7 +5,12 @@
 <%= form_tag url_for(action: 'organize'),id: 'organize' do %>
   <ul id=toolbar>
     <li> <b>Marked books</b> </li>
-    <li>  <%= collection_select(:reshelve,:shelf_id,@shelves,:id,:name,:prompt=>"Reshelve") %></li>
+    <li>
+    <%= collection_select(:reshelve,:shelf_id,@shelves,:id,:name,
+	:prompt=>"Change home shelf") %></li>
+    <li>
+    <%= collection_select(:reshelve,:current_shelf_id,@shelves,:id,:name,
+	:prompt=>"Change current shelf") %></li>
     <li>
       <%= collection_select(:collection,:collection_id,@collections,:id,:name,:prompt=>"Change
       collection") %></li>
@@ -16,6 +21,7 @@
   <table>
     <col class="check"/>
     <col class="where"/>
+    <col class="current_location"/>
     <col class="title"/>
     <col class="author"/>
     <col class="publisher"/>
@@ -34,7 +40,8 @@
 	  <option value=invert>Invert</option>
 	</select>
       </th>
-      <th>Where</th>
+      <th>Home</th>
+      <th>Now</th>
       <th>Title</th>
       <th>Author</th>
       <th>Publisher</th>
@@ -47,7 +54,7 @@
 <% @books.each do |book| 
   if book.collection.permitted?(current_user,:browse) then %>
   <%= render :partial=>"row", :locals => {
-  :book=>book,:columns=>[:check,:owner_shelf,:added] 
+  :book=>book,:columns=>[:check,:home_location, :current_location,:added] 
   } %>
 <%   end
   end
