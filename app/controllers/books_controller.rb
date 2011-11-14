@@ -34,10 +34,18 @@ class BooksController < ApplicationController
 
   def organize
     books=Book.where(:id=> params[:check].map(&:to_i))
+    # should verify that current_user has rights to change the 
+    # collection/shelves of the respective book ids.  May be owner
+    # or borrower
     if s=params[:reshelve][:shelf_id] and s.present? and 
         shelf=Shelf.find(s.to_i) and
         shelf.owner == current_user
       books.update_all :shelf_id=>shelf.id
+    end
+    if s=params[:reshelve][:current_shelf_id] and s.present? and 
+        shelf=Shelf.find(s.to_i) and
+        shelf.owner == current_user
+      books.update_all :current_shelf_id=>shelf.id
     end
     if c=params[:collection][:collection_id] and c.present? and
         collection=Collection.find(c.to_i) and

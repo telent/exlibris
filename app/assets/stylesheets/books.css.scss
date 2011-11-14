@@ -1,6 +1,29 @@
 /* -*- css -*- mode please */
 @import "includes.css.scss";
 
+div.books_show {
+    padding: 2em;
+}
+div.books_show dl {
+    font-size: 12pt;
+    font-weight: bold;
+    line-height: 180%;
+    dt {
+	color: #444;
+	width: 8em;
+	float: left;
+	padding-right: 1em;
+	text-align: right;
+	clear: left;
+    }
+    dd {
+	float: left;
+	color: black;
+//	margin-left: 4em;
+    }
+}
+
+
 form#organize {
     select {	width: 10em;    }   
     select#mark {	width: 2.5em;    }
@@ -32,7 +55,15 @@ form#organize {
 	    border-style: solid;
 	    border-color: $border-blue;
 	    border-width: 1px 1px 1px 1px;
+	    td.home {
+		font-style: italic;
+		font-size: 90%;
+	    }
+	    td.away {
+		color: #700;
+	    }
 	}
+	
 	th {
 	    text-decoration: underline;
 	    color: blue;

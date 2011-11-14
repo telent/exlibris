@@ -2,39 +2,35 @@
 
 <p id="notice"><%= notice %></p>
 
-<p>
-  <b>Owner:</b>
-  <%= @book.owner.name %>
-</p>
-
+<div class="books_show">
+<dl>
+<dt>Owner</dt>
+<dd>  <%= @book.owner.name %> </dd>
 <%= image_tag @book.cover_image_url(:medium),:align=>:right,:height=>303,:alt=>"Cover image" %>
 
-<p>
-  <b>Title:</b>
-  <%= @book.title %>
-</p>
-<p>
-  <b>Author:</b>
-  <%= @book.author %>
-</p>
-<p>
-  <b>Publisher:</b>
-  <%= @book.publisher %>
-</p>
-<p>
-  <b>ISBN:</b>
-  <%= @book.isbn %>
-</p>
-<p>
-<% if @book.borrower then %>
-  <b>On loan to:</b>
-  <%= b=@book.borrower and link_to("#{b.name} (#{b.fullname})",b) %>
-<% else %>
-  <b>On shelf:</b>
-<%= s=@book.shelf ; s && link_to(s.name,s) %>
-<% end %>
-</p>
+<dt>Title</dt>
+<dd>  <%= @book.title %></dd>
 
+<dt>Author</dt>
+<dd>  <%= @book.author %></dd>
+
+<dt>Publisher</dt>
+<dd>  <%= @book.publisher %></dd>
+
+<dt>ISBN</dt>
+<dd>  <%= @book.isbn %></dd>
+
+<dt>Home shelf</dt>
+<dd>  <%= @book.shelf.name %></dd>
+
+<% if @book.on_loan? then %>
+<dt>On loan to</dt>
+<dd>  <%= b=@book.borrower and link_to("#{b.name} (#{b.fullname})",b) %></dd>
+<% elsif !@book.home? then %>
+<dt>Current shelf</dt>
+<dd><%= s=@book.current_shelf ; s && link_to(s.name,s) %></dd>
+<% end %>
+<br clear=both>
 <%= link_to 'Edit', edit_book_path(@book) %> |
 <%= link_to 'Back', books_path %> |
 
@@ -54,5 +50,6 @@
     <input name="borrower_id" type=hidden value='' />
 <% end %>
 </div>
+</div>
 
-<br clear=both>
+
