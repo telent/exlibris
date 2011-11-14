@@ -1,13 +1,18 @@
 require_relative "../../lib/projectable"
 
 class Book < ActiveRecord::Base
-  has_one :owner,:class_name=>"User", :through=>:shelf
+  has_one :owner,:class_name=>"User", :through=>:collection,:source=>:user
   belongs_to :borrower,:class_name=>"User"
   belongs_to :shelf
   belongs_to :edition
   belongs_to :collection
 
+  validates_associated :collection
+  validates :collection_id,:presence=>true
+
   validates_associated :shelf
+  validates :shelf_id,:presence=>true
+
   validates_associated :edition
   # rails seems not to be terribly good at validating associations when
   # the associated object is unsaved.  ENTRAILS ON A STICK
@@ -28,6 +33,9 @@ class Book < ActiveRecord::Base
     a=Hash[attr.map {|k,v| [k.to_sym,v]}]
     if a[:isbn].present? then 
       e=Edition.find_by_isbn(a[:isbn])
+    end
+    if !a[:owner].present? then
+      a[:owner]=a[:collection].owner
     end
     if (a[:isbn].present? && 
         !a[:edition].present? &&

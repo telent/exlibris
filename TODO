@@ -389,6 +389,65 @@ to denote when the feed was viewed -  this could even be an event itself
 John
 looked-at-the-news
 
+Sun Nov  6 23:12:06 2011
+
+we need to go through the various methods that might create an event
+and insert the event code.  Can this 
+
+Thu Nov 10 16:34:05 2011
+
+OK, we have :join,:new,:lend,:return events
+Not sure if "wall post" should be an event or a story - story might be
+easier
+
+Fri Nov 11 10:59:48 2011
+
+expanding a bit on event aggregation: if you're looking at a page on
+te site that says "X added 16 books", and then they add another 32, it
+won't matter too much if next time you look it says "X added 48
+books".  The problem is when feeding to external sites.
+
+Perhaps the simplest answer is that the events aren't pushed to
+external feeds until they're finished: simply add a 20 minute delay
+
+Sun Nov 13 20:51:05 2011
+
+TODO: 
+
+1) stories aggregation code
+2) home page to include stories feed
+3) reviews
+4) invites
+5) "moderator" and "librarian" interfaces, for cleaning up reviews and
+ tidying edition data resp.
+6) a new user should get a default collection
+7) UI for collection ACLs
+8) search books
+9) browsing interface for other people's books - by author or tag or something
+10) 'request to borrow' and/or 'wishlist' 
+
+we would like to separate the notions of 'current shelf' and 'home
+shelf', such that we can log that a book is away from home and the
+borrower can use logovore to remember where he's put it
+
+This means that books should indirect through collection not shelf to
+find owner
+
+invites and loans-to-non-members: we can create a User record for the
+external person; we should avoid creating news stories for these
+placeholder people
 
 
+a placeholder person can be converted into a real person by following
+a 'reset password' link to create an authentication thingy for it.  So
+we need a new kind of Authorization, perhaps time-limited, which
+contains a token that can be compared against a request query param.
+And we need some code to send an email with that link in it.  This
+would also work for "I have locked myself out"
+
+Once so authorized, a user will probably want to add themselves with
+fb or twitter or somehow as well.
+
+Perhaps we should extend the user with a 'registered' timestamp so
+we can see which ones are unused.
 

@@ -13,6 +13,7 @@ class BookTest < MiniTest::Rails::Model
     @isbn='9780140171730'
     @publisher='RoC'
     @shelf=Shelf.create(:owner=>@user,:name=>"A SHELF")
+    @collection=Collection.create(:user=>@user,:name=>"my books")
   end
   after do
     Event.unsubscribe @esubscriber
@@ -43,7 +44,7 @@ class BookTest < MiniTest::Rails::Model
     describe "when isbn provided and no author/title" do
       it "uses existing Edition where ISBN matches" do
         Edition.expects(:find_by_isbn).with(@isbn).returns(mock_edition)
-        b=Book.new(:isbn=>@isbn,:owner=>@user)
+        b=Book.new(:isbn=>@isbn,:owner=>@user,:collection=>@collection)
         assert_equal @title,b.title
         assert_equal @author,b.author
         assert_equal @isbn,b.isbn
@@ -52,7 +53,7 @@ class BookTest < MiniTest::Rails::Model
       it "creates new Edition when the ISBN exists in Google Books" do
         Edition.expects(:find_by_isbn).with(@isbn).returns(nil)
         Edition.expects(:google_lookup_isbn).with(@isbn).returns(mock_edition)
-        b=Book.new(:isbn=>@isbn,:owner=>@user)
+        b=Book.new(:isbn=>@isbn,:owner=>@user,:collection=>@collection)
         assert_equal @title,b.title
         assert_equal @author,b.author
         assert_equal @isbn,b.isbn
@@ -61,7 +62,7 @@ class BookTest < MiniTest::Rails::Model
       it "creates invalid Book when ISBN is invalid or not found" do
         Edition.expects(:find_by_isbn).with(@isbn).returns(nil)
         Edition.expects(:google_lookup_isbn).with(@isbn).returns(nil)
-        b=Book.new(:isbn=>@isbn,:owner=>@user)
+        b=Book.new(:isbn=>@isbn,:owner=>@user,:collection=>@collection)
         refute b.valid?
         assert_match "Edition missing", b.errors.full_messages.join
       end
@@ -70,7 +71,7 @@ class BookTest < MiniTest::Rails::Model
       it "uses existing Edition if author/title/publisher match" do
         Edition.expects(:find_by_isbn).with(@isbn).returns(mock_edition)
         b=Book.new(:author=>@author,:title=>@title,:isbn=>@isbn,
-                   :publisher=>@publisher)
+                   :publisher=>@publisher,:collection=>@collection)
         assert_equal mock_edition.id,b.edition.id
         assert_equal @title,b.title
         assert_equal @author,b.author
@@ -84,17 +85,18 @@ class BookTest < MiniTest::Rails::Model
           a[:author]=="Not #{@author}"
         }.returns(m2)
         b=Book.new(:author=>"Not #{@author}",:title=>@title,:isbn=>@isbn,
-                   :publisher=>@publisher)
+                   :publisher=>@publisher,:collection=>@collection)
         assert_equal b.edition,m2
       end
     end
     it "when ISBN absent, makes new book and edition" do
       m2=mock_edition
       Edition.expects(:new).with(has_entry(:title=>@title)).returns(m2)
-      b=Book.new(:author=>@author,:title=>@title,:publisher=>@publisher)
+      b=Book.new(:author=>@author,:title=>@title,:publisher=>@publisher,
+                 :shelf=>@shelf,:collection=>@collection)
       m2.stubs(:valid?).returns(true)
       m2.stubs(:collect).returns []
-      assert b.valid? #,b.errors.full_messages.join(" ")
+      assert b.valid? ,b.errors.full_messages.join(" ")
     end
   end
   describe "#lend" do
@@ -108,7 +110,8 @@ class BookTest < MiniTest::Rails::Model
       m.stubs(:valid?).returns(true)
       m.stubs(:collect).returns []
       
-      @book=Book.create(:isbn=>@isbn,:owner=>@user,:shelf=>@shelf)
+      @book=Book.create(:isbn=>@isbn,:owner=>@user,:shelf=>@shelf,
+                        :collection=>@collection)
     end
     
     it "can be lent if on shelf" do
@@ -155,12 +158,12 @@ class BookTest < MiniTest::Rails::Model
         m.stubs meth
       end
       m.stubs(:collect).returns []
-      s=Shelf.new(:owner=>@user)
-      b=Book.create(:isbn=>@isbn,:shelf=>s)
+      @published={:action=>:blah}
+      b=Book.create(:isbn=>@isbn,:shelf=>@shelf,:collection=>@collection)
+      assert b.valid? ,b.errors.full_messages.join(" ")
       assert_equal :new,@published[:action]
       assert_equal b,@published[:book]
       assert_equal @user,@published[:actor]
-
     end
   end
 end
