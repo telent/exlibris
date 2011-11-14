@@ -91,11 +91,6 @@ ActiveRecord::Schema.define(:version => 20111114160105) do
   add_index "following", ["follower_id"], :name => "index_following_on_follower_id"
   add_index "following", ["following_id"], :name => "index_following_on_following_id"
 
-  create_table "followings", :force => true do |t|
-    t.integer "follower_id"
-    t.integer "following_id"
-  end
-
   create_table "publications", :force => true do |t|
     t.string   "author"
     t.string   "title"
